@@ -45,17 +45,21 @@
             height: 25px;
             margin-bottom: 20px;
             padding: 5px;
+            --widthB: 100%;
+            --widthC: calc(var(--widthB) - var(--widthA));
+            background: linear-gradient(to left, orangered var(--widthC), transparent var(--widthC), transparent var(--widthA),#fff var(--widthA));
+            
 
         }
 
-        .ProgressBar > div {
+        /* .ProgressBar > div {
             height: 100%;
             background-color:orangered;
             float: right;
             --widthB: 100%;
             --widthC: calc(var(--widthB) - var(--widthA));
             width: var(--widthC);
-        }
+        } */
 
         .inactive {
             filter: blur(2px) grayscale(1);
@@ -75,8 +79,8 @@
         <div class="Timebox">
             <h1>I'm learning keyboard shortcuts</h1>
             <h2 class = "Clock">Time left: 13:28</h2>
-            <div class="ProgressBar" >
-                <div style = "--widthA: 20%"></div>
+            <div class="ProgressBar" style = "--widthA: 10%">
+                <!-- <div style = "--widthA: 20%"></div> -->
             </div>
             <button disabled>Start</button>
             <button>Stop</button>
