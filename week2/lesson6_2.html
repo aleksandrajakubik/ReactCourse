@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Course - week 2</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>  
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <style>
+        #root {
+            font-family: sans-serif;
+        }
+        .App {
+            font-family: sans-serif;
+        }
+
+        .TimeboxEditor {
+            text-align: right;
+            border: 1px solid gray;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            min-width: 60%;
+            margin-left: 20px;
+            font-size: 16px;
+        }
+
+        button {
+            font-style: 16px;
+            margin-left: 10px;
+        }
+
+        .Timebox{
+            border: 1px solid grey;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .Clock {
+            color: orangered;
+        }
+
+        .ProgressBar {
+            border: 1px solid orangered;
+            border-radius: 5px;
+            height: 25px;
+            margin-bottom: 20px;
+            padding: 5px;
+            --widthB: 100%;
+            --widthC: calc(var(--widthB) - var(--widthA));
+            background: linear-gradient(to left, orangered var(--widthC), transparent var(--widthC), transparent var(--widthA),#fff var(--widthA));
+            
+
+        }
+
+        .inactive {
+            filter: blur(2px) grayscale(1);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script type="text/javascript">
+const rootElement = document.getElementById("root");
+
+function addHeader(headerSize, headerText, headerClass){
+    const headerElement = React.createElement(headerSize, {className: headerClass}, headerText);
+    return headerElement;
+}
+
+function addInputWithLabel(labelText, isDisabled, defaultValue, typeOf) {
+    const inputToAdd = React.createElement("label", 
+    {
+        children: [labelText, React.createElement(
+            "input", 
+            {
+                type: typeOf,
+                value: defaultValue,
+                disabled: isDisabled
+            }
+        )]
+    });
+    return inputToAdd;
+}
+
+function addBr() {
+    return React.createElement("br");
+}
+
+function addButton(buttonText, isDisabled) {
+    return React.createElement("button", 
+    {
+        disabled: isDisabled
+    }, buttonText);
+}
+
+const activityInput = addInputWithLabel("What are you doing?", true, "I'm learning keyboard shortcuts", "text");
+const timeInput = addInputWithLabel("For how many minutes?", true, "25", "text");
+
+const timeboxEditor = React.createElement("div", 
+    {
+        className: "TimeboxEditor inactive", 
+        children: 
+        [
+            activityInput, 
+            addBr(), 
+            timeInput, 
+            addBr(),
+            addButton("Begin", true)
+        ]
+    }
+);
+
+const progressBar = React.createElement("div", {className: "ProgressBar", style: {"--widthA": "20%"}});
+
+const timebox = React.createElement("div", 
+    {
+        className: "Timebox",
+        children: 
+        [
+            addHeader("h1", "I'm learning keyboard shortcuts"),
+            addHeader("h2", "Time left: 13:28", "Clock"),
+            progressBar,
+            addButton("Start", true),
+            addButton("Stop", false),
+            addButton("Pause", false),
+            React.createElement("p", {children: "Number of breaks: 2"})
+
+        ]
+    });
+const title = React.createElement("h1", {children: "React Course - week 2"});
+
+const appElement = React.createElement("div", {className: "App", children: [title, React.createElement("hr"), timeboxEditor, timebox]});
+ReactDOM.render(appElement, rootElement);
+
+
+</script>
+</html>
