@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Course - week 2</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>  
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <style>
+        .App {
+            font-family: sans-serif;
+        }
+
+        .TimeboxEditor {
+            text-align: right;
+            border: 1px solid gray;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            min-width: 60%;
+            margin-left: 20px;
+            font-size: 16px;
+        }
+
+        button {
+            font-style: 16px;
+            margin-left: 10px;
+        }
+
+        .Timebox{
+            border: 1px solid grey;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .Clock {
+            color: orangered;
+        }
+
+        .ProgressBar {
+            border: 1px solid orangered;
+            border-radius: 5px;
+            height: 25px;
+            margin-bottom: 20px;
+            padding: 5px;
+            --widthB: 100%;
+            --widthC: calc(var(--widthB) - var(--widthA));
+            background: linear-gradient(to left, orangered var(--widthC), transparent var(--widthC), transparent var(--widthA),#fff var(--widthA));
+            
+
+        }
+
+        /* .ProgressBar > div {
+            height: 100%;
+            background-color:orangered;
+            float: right;
+            --widthB: 100%;
+            --widthC: calc(var(--widthB) - var(--widthA));
+            width: var(--widthC);
+        } */
+
+        .inactive {
+            filter: blur(2px) grayscale(1);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script type="text/javascript">
+const rootElement = document.getElementById("root");
+
+function addHeader(headerSize, headerText, headerClassName) {
+    const headerElement = document.createElement(headerSize);
+    headerElement.textContent = headerText;
+    headerElement.className = headerClassName;
+    return headerElement;
+}
+
+const lineElement = document.createElement("hr");
+
+rootElement.append(addHeader("h1", "React Course - week 2"));
+rootElement.append(lineElement);
+
+const appElement = document.createElement("div");
+appElement.className = "App";
+const timeboxEditor = document.createElement("div");
+timeboxEditor.className = "TimeboxEditor inactive";
+
+
+function createInputWithLabel(labelText, isDisabled, defaultValue, typeOf) {
+    const addLabel = document.createElement("label");
+    addLabel.textContent = labelText;
+    const addInput = document.createElement("input");
+    addInput.disabled = isDisabled;
+    addInput.value = defaultValue;
+    addInput.type = typeOf;
+    addLabel.append(addInput);
+    return addLabel;
+}
+function addBr(){
+    const addingBr = document.createElement("br");
+    return addingBr;
+}
+
+function createButton(isDisabled, textOnButton){
+    const addButton = document.createElement("button");
+    addButton.disabled = isDisabled;
+    addButton.textContent = textOnButton;
+    return addButton;
+}
+
+timeboxEditor.append(createInputWithLabel("What are you doing?", true, "I'm learning keyboard shortcuts", "text"));
+timeboxEditor.append(addBr());
+timeboxEditor.append(createInputWithLabel("For how many minutes?", true, "25", "text"));
+timeboxEditor.append(addBr());
+timeboxEditor.append(createButton(true, "Begin"))
+appElement.append(timeboxEditor);
+
+const timebox = document.createElement("div");
+
+const progressBar = document.createElement("div");
+progressBar.className = "ProgressBar"
+progressBar.style = "--widthA: 10%";
+
+
+timebox.className = "Timebox";
+timebox.append(addHeader("h1", "I'm learning keyboard shortcuts"));
+timebox.append(addHeader("h2", "Time left: 13:28", "Clock"));
+timebox.append(progressBar);
+timebox.append(createButton(true, "Start"));
+timebox.append(createButton(false, "Stop"));
+timebox.append(createButton(false, "Pause"));
+timebox.append(" Number of breaks: 2")
+
+
+appElement.append(timebox);
+
+rootElement.append(appElement);
+
+
+</script>
+</html>
