@@ -6,6 +6,7 @@
     <title>React Course - week 2</title>
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>  
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
         .App {
             font-family: sans-serif;
@@ -54,15 +55,6 @@
 
         }
 
-        /* .ProgressBar > div {
-            height: 100%;
-            background-color:orangered;
-            float: right;
-            --widthB: 100%;
-            --widthC: calc(var(--widthB) - var(--widthA));
-            width: var(--widthC);
-        } */
-
         .inactive {
             filter: blur(2px) grayscale(1);
         }
@@ -83,7 +75,6 @@
             <h2 class = "Clock">Time left: 13:28</h2>
             <div id="root"></div>
             <div class="ProgressBar" style = "--widthA: 10%">
-                <!-- <div style = "--widthA: 20%"></div> -->
             </div>
             <button disabled>Start</button>
             <button>Stop</button>
@@ -92,21 +83,58 @@
         </div>
     </div>
 </body>
-<script type="text/javascript">
+<script type="text/babel">
+
+function isLengthEqual1(string) {
+    let newString = string;
+    newString.length === 1 ? newString = '0' + newString : newString;
+    return newString;
+
+}
+
+function hoursValidation(hour) {
+    if (hour < 0){
+        return String(0);
+    } else if (hour > 23) {
+        return String(23);
+    } else {
+        return String(hour)
+    }
+}
+
+function minutesAndSecondsValidation(time) {
+    if (time < 0) {
+        return '00'
+    } else if (time > 59) {
+        return '59'
+    } else {
+        return String(time)
+    }
+}
+
+function milisecondsValidation(miliseconds) {
+    if (miliseconds < 0) {
+        return '000'
+    } else if (miliseconds > 999) {
+        return '999'
+    } else {
+        let newMiliseconds = String(miliseconds);
+        newMiliseconds.length === 1 ? newMiliseconds = '00' + newMiliseconds : newMiliseconds.length === 2 ? newMiliseconds = '0' + newMiliseconds : newMiliseconds;
+        return newMiliseconds;
+    }
+}
+
+function Clock({ hours, minutes, seconds, miliseconds }) {
+    let newHours = isLengthEqual1(hoursValidation(hours));
+    let newMinutes = isLengthEqual1(minutesAndSecondsValidation(minutes));
+    let newSeconds = isLengthEqual1(minutesAndSecondsValidation(seconds));
+    let newMiliseconds = milisecondsValidation(miliseconds);
+    return <h2 className = "Clock">Time left: {newHours}:{newMinutes}:{newSeconds}.{newMiliseconds}</h2>
+}
+
 const rootElement = document.getElementById("root");
 
-const domElement = document.createElement("h2")
-domElement.className = "Clock"
-domElement.textContent = "Time left 15:15"
-
-// rootElement.append(domElement);
-
-const element = React.createElement(
-    "h2", 
-    { className: "Clock" },
-    "Time left 15:15"
-);
-
+const element = (<Clock hours = {5} minutes={2} seconds={9} miliseconds = {1000}/>);
 ReactDOM.render(element, rootElement);
 </script>
 </html>
