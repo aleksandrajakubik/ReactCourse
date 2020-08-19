@@ -42,7 +42,7 @@
             color: orangered;
         }
 
-        .ProgressBar {
+        .ProgressBarRemaining {
             border: 1px solid orangered;
             border-radius: 5px;
             height: 25px;
@@ -51,6 +51,16 @@
             --widthB: 100%;
             --widthC: calc(var(--widthB) - var(--widthA));
             background: linear-gradient(to left, orangered var(--widthC), transparent var(--widthC), transparent var(--widthA),#fff var(--widthA));
+            
+        }
+
+        .ProgressBarDefault {
+            border: 1px solid orangered;
+            border-radius: 5px;
+            height: 25px;
+            margin-bottom: 20px;
+            padding: 5px;
+            background: linear-gradient(to right, orangered var(--widthA), transparent var(--widthA));
             
 
         }
@@ -64,24 +74,7 @@
 <body>
     <h1>React Course - week 2</h1>
     <hr>
-    <div class="App">
-        <div class="TimeboxEditor inactive">
-            <label>What are you doing?<input disabled value = "I'm learning keyboard shortcuts" type="text"></label><br>
-            <label>For how many minutes?<input disabled value = "25" type="text"></label><br>
-            <button disabled>Begin</button>
-        </div>
-        <div class="Timebox">
-            <h1>I'm learning keyboard shortcuts</h1>
-            <h2 class = "Clock">Time left: 13:28</h2>
-            <div id="root"></div>
-            <div class="ProgressBar" style = "--widthA: 10%">
-            </div>
-            <button disabled>Start</button>
-            <button>Stop</button>
-            <button>Pause</button>
-            Number of breaks: 2
-        </div>
-    </div>
+    <div id="root"></div>
 </body>
 <script type="text/babel">
 
@@ -124,7 +117,17 @@ function milisecondsValidation(miliseconds) {
     }
 }
 
-function Clock({ hours, minutes, seconds, miliseconds }) {
+function TimeboxEditor() {
+    return (
+        <div className="TimeboxEditor inactive">
+            <label>What are you doing?<input disabled value = "I'm learning keyboard shortcuts" type="text" /></label><br /> 
+            <label>For how many minutes?<input disabled value = "25" type="text" /></label><br />
+            <button disabled>Begin</button>
+        </div>
+    )
+}
+
+function Clock({ hours = 5, minutes = 2, seconds = 9, miliseconds = 1000}) {
     let newHours = isLengthEqual1(hoursValidation(hours));
     let newMinutes = isLengthEqual1(minutesAndSecondsValidation(minutes));
     let newSeconds = isLengthEqual1(minutesAndSecondsValidation(seconds));
@@ -132,9 +135,43 @@ function Clock({ hours, minutes, seconds, miliseconds }) {
     return <h2 className = "Clock">Time left: {newHours}:{newMinutes}:{newSeconds}.{newMiliseconds}</h2>
 }
 
-const rootElement = document.getElementById("root");
+function ProgressBar({ percent = 20, trackRemaining = false}) {
+    if (trackRemaining) {
+        return (
+            <div className="ProgressBarRemaining" style = {{"--widthA": `${percent}%`}}>
+            </div>
+        )
+    } else {
+        return (
+            <div className="ProgressBarDefault" style = {{"--widthA": `${percent}%`}}>
+            </div>
+        )
+    }
+}
 
-const element = (<Clock hours = {5} minutes={2} seconds={9} miliseconds = {1000}/>);
-ReactDOM.render(element, rootElement);
+function Timebox() {
+    return (
+        <div className="Timebox">
+            <h1>I'm learning keyboard shortcuts</h1>
+            <Clock />
+            <ProgressBar />
+            <button disabled>Start</button>
+            <button>Stop</button>
+            <button>Pause</button>
+            Number of breaks: 2
+        </div>
+    )
+}
+
+function App() {
+    return (
+        <div className="App">
+            <TimeboxEditor />
+            <Timebox />
+        </div>
+    )
+}
+
+ReactDOM.render(<App />, document.getElementById("root"));
 </script>
 </html>
