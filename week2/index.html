@@ -149,18 +149,29 @@ function ProgressBar({ percent = 20, trackRemaining = false}) {
     }
 }
 
-function Timebox() {
-    return (
-        <div className="Timebox">
-            <h1>I'm learning keyboard shortcuts</h1>
-            <Clock />
-            <ProgressBar />
-            <button disabled>Start</button>
-            <button>Stop</button>
-            <button>Pause</button>
-            Number of breaks: 2
-        </div>
-    )
+class Timebox extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isRunning: true,
+            isPaused: false,
+            pausesCount: 0
+        }
+    }
+    render() {
+        const { isPaused, isRunning, pausesCount } = this.state;
+        return (
+            <div className="Timebox">
+                <h1>I'm learning keyboard shortcuts</h1>
+                <Clock />
+                <ProgressBar />
+                <button disabled = {isRunning}>Start</button>
+                <button disabled = {!isRunning}>Stop</button>
+                <button disabled = {!isRunning}>{isPaused ? "Restart" : "Pause"}</button>
+                Number of breaks: {pausesCount}
+            </div>
+        )
+    }
 }
 
 function App() {
