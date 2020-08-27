@@ -117,17 +117,49 @@ function milisecondsValidation(miliseconds) {
     }
 }
 
-function TimeboxEditor() {
-    return (
-        <div className="TimeboxEditor inactive">
-            <label>What are you doing?<input disabled value = "I'm learning keyboard shortcuts" type="text" /></label><br /> 
-            <label>For how many minutes?<input disabled value = "25" type="text" /></label><br />
-            <button disabled>Begin</button>
-        </div>
-    )
+class TimeboxEditor extends React.Component {
+    state = {
+        title: "Uczę się o kontrolowanych komponentach",
+        totalTimeInMinutes: 15,
+    }
+
+    handleTitleChange = (event) => {
+        this.setState({ title: event.target.value })
+
+    }
+
+    handleTotalTimeInMinutesChange = (event) => {
+        this.setState({ totalTimeInMinutes: event.target.value })
+    }
+    render() {
+        const { title, totalTimeInMinutes } = this.state;
+        return (
+            <div className="TimeboxEditor">
+                <label>
+                    What are you doing?
+                    <input 
+                        disabled={false} 
+                        value={title}
+                        onChange={this.handleTitleChange}
+                        type="text" 
+                    />
+                </label><br /> 
+                <label>
+                    For how many minutes?
+                    <input 
+                        disabled={false}
+                        value={totalTimeInMinutes}
+                        onChange={this.handleTotalTimeInMinutesChange}
+                        type="text" 
+                    />
+                </label><br />
+                <button disabled={false}>Begin</button>
+            </div>
+        )
+    }
 }
 
-function Clock({ className = "", hours = 5, minutes = 2, seconds = 9, miliseconds = 1000}) {
+function Clock({ className = "", hours = 0, minutes = 2, seconds = 9, miliseconds = 0}) {
     let newHours = isLengthEqual1(hoursValidation(hours));
     let newMinutes = isLengthEqual1(minutesAndSecondsValidation(minutes));
     let newSeconds = isLengthEqual1(minutesAndSecondsValidation(seconds));
@@ -216,7 +248,7 @@ class Timebox extends React.Component {
 
     render() {
         const { isPaused, isRunning, pausesCount, elapsedTimeInSeconds } = this.state;
-        const totalTimeInSeconds = 25;
+        const totalTimeInSeconds = 70;
         const timeLeftInSeconds = totalTimeInSeconds - elapsedTimeInSeconds;
         const minutesLeft = Math.floor(timeLeftInSeconds/60);
         const secondsLeft = Math.floor(timeLeftInSeconds%60);
