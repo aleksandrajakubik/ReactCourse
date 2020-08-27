@@ -124,12 +124,14 @@ class TimeboxEditor extends React.Component {
     }
 
     handleTitleChange = (event) => {
-        this.setState({ title: event.target.value })
+        this.setState({ title: event.target.value });
+        this.props.onTitleChange(event);
 
     }
 
     handleTotalTimeInMinutesChange = (event) => {
-        this.setState({ totalTimeInMinutes: event.target.value })
+        this.setState({ totalTimeInMinutes: event.target.value });
+        this.props.onTotalTimeInMinutesChange(event);
     }
     render() {
         const { title, totalTimeInMinutes } = this.state;
@@ -274,11 +276,22 @@ class EditableTimebox extends React.Component {
         title: "I'm learning to move state up!",
         totalTimeInMinutes: 20
     }
+
+    handleTitleChange = (event) => {
+        this.setState({ title: event.target.value })
+    }
+
+    handleTotalTimeInMinutesChange = (event) => {
+        this.setState({ totalTimeInMinutes: event.target.value })
+    }
     render() {
         const { title, totalTimeInMinutes } = this.state;
         return (
             <>
-                <TimeboxEditor />
+                <TimeboxEditor 
+                    onTitleChange={this.handleTitleChange}
+                    onTotalTimeInMinutesChange={this.handleTotalTimeInMinutesChange}
+                />
                 <Timebox title={title} totalTimeInMinutes={totalTimeInMinutes}/>
             </>
         )
