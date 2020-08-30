@@ -325,7 +325,7 @@ class EditableTimebox extends React.Component {
     }
 }
 
-function TimeboxCreator(props) {
+function TimeboxCreator({ onCreate }) {
     return (
         <div className="TimeboxCreator">
             <label>
@@ -340,7 +340,7 @@ function TimeboxCreator(props) {
                     type="text" 
                 />
             </label><br />
-            <button>Add timebox</button>
+            <button onClick={onCreate}>Add timebox</button>
         </div>
     )
 }
@@ -354,15 +354,45 @@ class TimeboxList extends React.Component {
 
         ]
     }
+
+    addTimebox = (timebox) => {
+        this.setState(prevState => {
+            const timeboxes = [timebox, ...prevState.timeboxes];
+            return { timeboxes };
+        })
+    }
+
+    removeTimebox = (indexToRemove) => {
+        this.setState(prevState => {
+            const timeboxes = prevState.timeboxes.filter((timebox, index) => index !== indexToRemove);
+            return { timeboxes };
+        })
+    }
+
+    updateTimebox = (indexToUpdate, updatedTimebox) => {
+        this.setState(prevState => {
+            const timeboxes = prevState.timeboxes.map((timebox, index) => 
+                index === indexToUpdate ? updatedTimebox : timebox
+            );
+            return { timeboxes };
+        })
+    } 
+
+    handleCreate = () => {
+        this.addTimebox({ title: "New timebox", totalTimeInMinutes: 6 })
+    }
+
     render() {
         return (
             <>
-                <TimeboxCreator />
+                <TimeboxCreator onCreate = {this.handleCreate} />
                 {this.state.timeboxes.map((timebox, index) => (
                     <Timebox 
                         key={index}
                         title={timebox.title} 
                         totalTimeInMinutes={timebox.totalTimeInMinutes} 
+                        onDelete={() => this.removeTimebox(index)}
+                        onEdit={() => this.updateTimebox(index, {...timebox, title: "Updated timebox"})}
                     />
                 ))}
 
@@ -371,10 +401,12 @@ class TimeboxList extends React.Component {
     }
 }
 
-function Timebox({ title, totalTimeInMinutes }) {
+function Timebox({ title, totalTimeInMinutes, onDelete, onEdit }) {
     return (
         <div className="Timebox">
             <h3>{title} - {totalTimeInMinutes} min.</h3>
+            <button onClick={onDelete} >Delete</button>
+            <button onClick={onEdit} >Edit</button>
         </div>
     )
 }
