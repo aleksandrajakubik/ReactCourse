@@ -7,6 +7,7 @@
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>  
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.0/uuid.min.js" integrity="sha512-ItCQZ+YZvhn8MTzDZtxcv5wMW5+tk/Xe5kVobGs6Xf/D/zmu/vQet9tfjrfUblAIgetyvQy8+LdwtegId3hw0Q==" crossorigin="anonymous"></script>
     <style>
         .App {
             font-family: sans-serif;
@@ -348,9 +349,9 @@ function TimeboxCreator({ onCreate }) {
 class TimeboxList extends React.Component {
     state = {
         timeboxes: [
-            { title: "Im learning lists", totalTimeInMinutes: 25 },
-            { title: "Im learning forms", totalTimeInMinutes: 15 },
-            { title: "Im learning uncontrolled", totalTimeInMinutes: 10 },
+            { id: "a", title: "Im learning lists", totalTimeInMinutes: 25 },
+            { id: "b", title: "Im learning forms", totalTimeInMinutes: 15 },
+            { id: "c", title: "Im learning uncontrolled", totalTimeInMinutes: 10 },
 
         ]
     }
@@ -379,7 +380,7 @@ class TimeboxList extends React.Component {
     } 
 
     handleCreate = () => {
-        this.addTimebox({ title: "New timebox", totalTimeInMinutes: 6 })
+        this.addTimebox({ id: uuid.v4(), title: "New timebox", totalTimeInMinutes: 6 })
     }
 
     render() {
@@ -388,7 +389,7 @@ class TimeboxList extends React.Component {
                 <TimeboxCreator onCreate = {this.handleCreate} />
                 {this.state.timeboxes.map((timebox, index) => (
                     <Timebox 
-                        key={index}
+                        key={timebox.id}
                         title={timebox.title} 
                         totalTimeInMinutes={timebox.totalTimeInMinutes} 
                         onDelete={() => this.removeTimebox(index)}
