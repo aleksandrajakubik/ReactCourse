@@ -28,6 +28,12 @@
             margin-bottom: 20px;
         }
 
+        .EditTimebox { 
+            text-align: right;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
         input {
             min-width: 60%;
             margin-left: 20px;
@@ -75,6 +81,10 @@
 
         .inactive {
             filter: blur(2px) grayscale(1);
+        }
+        
+        .notVisible {
+            display: none;
         }
 
     </style>
@@ -329,35 +339,33 @@ class EditableTimebox extends React.Component {
 class TimeboxCreator extends React.Component {
     constructor(props) {
         super(props);
-        this.titleInput = React.createRef();
-        this.totalTimeInMinutesInput = React.createRef();
+        this.formInput = React.createRef();
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
         this.props.onCreate({
             id: uuid.v4(),
-            title: this.titleInput.current.value,
-            totalTimeInMinutes: this.totalTimeInMinutesInput.current.value
+            title: this.formInput.current[0].value,
+            totalTimeInMinutes: this.formInput.current[1].value
         });
-        this.titleInput.current.value = "";
-        this.totalTimeInMinutesInput.current.value = "";
+        console.log(this.formInput)
+        this.formInput.current[0].value = "";
+        this.formInput.current[1].value = "";
     }
     
     render() {
         return (
-            <form onSubmit = {this.handleSubmit} className="TimeboxCreator">
+            <form onSubmit = {this.handleSubmit} ref = {this.formInput} className="TimeboxCreator">
                 <label>
                     What are you doing?
                     <input 
-                        ref={this.titleInput}
                         type="text" 
                     />
                 </label><br /> 
                 <label>
                     For how many minutes?
                     <input 
-                        ref={this.totalTimeInMinutesInput}
                         type="text" 
                     />
                 </label><br />
@@ -366,6 +374,7 @@ class TimeboxCreator extends React.Component {
         )
     }
 }
+
 
 class TimeboxList extends React.Component {
     state = {
@@ -414,7 +423,8 @@ class TimeboxList extends React.Component {
                         title={timebox.title} 
                         totalTimeInMinutes={timebox.totalTimeInMinutes} 
                         onDelete={() => this.removeTimebox(index)}
-                        onEdit={() => this.updateTimebox(index, {...timebox, title: "Updated timebox"})}
+                        onEdit={(newTitle, newTotalTimeInMinutes) => this.updateTimebox(index, {...timebox, title: newTitle, totalTimeInMinutes: newTotalTimeInMinutes})}
+                        
                     />
                 ))}
 
@@ -423,14 +433,76 @@ class TimeboxList extends React.Component {
     }
 }
 
-function Timebox({ title, totalTimeInMinutes, onDelete, onEdit }) {
-    return (
-        <div className="Timebox">
-            <h3>{title} - {totalTimeInMinutes} min.</h3>
-            <button onClick={onDelete} >Delete</button>
-            <button onClick={onEdit} >Edit</button>
-        </div>
-    )
+class EditTimebox extends React.Component {
+    constructor(props) {
+        super(props);
+        this.titleInput = React.createRef();
+        this.totalTimeInMinutesInput = React.createRef();
+    }
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.props.onEdit(
+            this.titleInput.current.value,
+            this.totalTimeInMinutesInput.current.value
+        );
+        this.titleInput.current.value = "";
+        this.totalTimeInMinutesInput.current.value = "";
+        this.props.hidden();
+    }
+
+    render() {
+        return (
+            <>
+                <form onSubmit = {this.handleSubmit} className="EditTimebox">
+                    <label>
+                        What are you doing?
+                        <input 
+                            ref={this.titleInput}
+                            type="text" 
+                        />
+                    </label><br /> 
+                    <label>
+                        For how many minutes?
+                        <input 
+                            ref={this.totalTimeInMinutesInput}
+                            type="text" 
+                        />
+                    </label><br />
+                    <button>Update timebox</button>
+                </form>
+            </>
+        )
+    }
+}
+
+class Timebox extends React.Component {
+    state = {
+        isEditable: false
+    };
+
+    handleEdit = () => {
+        this.setState(
+            (prevState) => ({
+                        isEditable: !prevState.isEditable
+                    })
+        )
+    }
+    render() {
+        const { 
+            title, 
+            totalTimeInMinutes, 
+            onDelete, 
+            onEdit 
+        } = this.props;
+        return (
+            <div className="Timebox">
+                <h3>{title} - {totalTimeInMinutes} min.</h3>
+                <button onClick={onDelete} >Delete</button>
+                <button onClick={this.handleEdit} >Edit</button>
+                {this.state.isEditable ? <EditTimebox hidden={this.handleEdit} onEdit={onEdit}/> : null}
+            </div>
+        )
+    }
 }
 
 
