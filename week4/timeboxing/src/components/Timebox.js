@@ -1,7 +1,6 @@
 import React from "react";
 import EditTimebox from "./EditTimebox";
 
-
 class Timebox extends React.Component {
     state = {
         isEditable: false
@@ -30,7 +29,6 @@ class Timebox extends React.Component {
             </div>
         )
     }
-}
+};
 
-export { Timebox }
-
+export default Timebox;
