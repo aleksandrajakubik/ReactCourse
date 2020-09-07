@@ -2,22 +2,7 @@ import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import Clock from "./Clock";
 import TimeboxEditor from "./TimeboxEditor";
-
-
-
-function ProgressBar({ className = "", percent, trackRemaining = true}) {
-    if (trackRemaining) {
-        return (
-            <div className={"ProgressBarRemaining " + className} style = {{"--widthA": `${percent}%`}}>
-            </div>
-        )
-    } else {
-        return (
-            <div className={"ProgressBarDefault " + className} style = {{"--widthA": `${percent}%`}}>
-            </div>
-        )
-    }
-}
+import ProgressBar from "./ProgressBar";
 
 class CurrentTimebox extends React.Component {
     constructor(props) {
