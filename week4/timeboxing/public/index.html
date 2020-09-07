@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Course - week 4</title>
+    <style>
+        .App {
+            font-family: sans-serif;
+        }
+
+        .Timebox {
+            border: 1px solid gray;
+            border-radius: 5px;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        .TimeboxEditor, .TimeboxCreator {
+            text-align: right;
+            border: 1px solid gray;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .TimeboxCreator {
+            background-color: aqua;
+        }
+
+        .TimeboxEditor {
+            background-color: aquamarine;
+        }
+
+        .Timebox {
+            background-color: #ffaaaa;
+        }
+
+        .CurrentTimebox {
+            background-color: #ffffaa;
+        }
+
+        .EditTimebox { 
+            text-align: right;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            min-width: 60%;
+            margin-left: 20px;
+            font-size: 16px;
+        }
+
+        button {
+            font-style: 16px;
+            margin-left: 10px;
+        }
+
+        .CurrentTimebox{
+            border: 1px solid grey;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .Clock {
+            color: orangered;
+        }
+
+        .ProgressBarRemaining {
+            border: 1px solid orangered;
+            border-radius: 5px;
+            height: 25px;
+            margin-bottom: 20px;
+            padding: 5px;
+            --widthB: 100%;
+            --widthC: calc(var(--widthB) - var(--widthA));
+            background: linear-gradient(to left, orangered var(--widthC), transparent var(--widthC), transparent var(--widthA),#fff var(--widthA));
+            
+        }
+
+        .ProgressBarDefault {
+            border: 1px solid orangered;
+            border-radius: 5px;
+            height: 25px;
+            margin-bottom: 20px;
+            padding: 5px;
+            background: linear-gradient(to right, orangered var(--widthA), transparent var(--widthA));
+            
+
+        }
+
+        .inactive {
+            filter: blur(2px) grayscale(1);
+        }
+        
+        .notVisible {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>React Course - week 4</h1>
+    <hr>
+    <div id="root"></div>
+</body>
+</html>

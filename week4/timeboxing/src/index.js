@@ -1,121 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>React Course - week 3</title>
-    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>  
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.0/uuid.min.js" integrity="sha512-ItCQZ+YZvhn8MTzDZtxcv5wMW5+tk/Xe5kVobGs6Xf/D/zmu/vQet9tfjrfUblAIgetyvQy8+LdwtegId3hw0Q==" crossorigin="anonymous"></script>
-    <style>
-        .App {
-            font-family: sans-serif;
-        }
+import React from "react";
+import ReactDOM from "react-dom";
+import { v4 as uuidv4 } from "uuid";
 
-        .Timebox {
-            border: 1px solid gray;
-            border-radius: 5px;
-            padding: 5px;
-            margin-bottom: 10px;
-        }
-
-        .TimeboxEditor, .TimeboxCreator {
-            text-align: right;
-            border: 1px solid gray;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .TimeboxCreator {
-            background-color: aqua;
-        }
-
-        .TimeboxEditor {
-            background-color: aquamarine;
-        }
-
-        .Timebox {
-            background-color: #ffaaaa;
-        }
-
-        .CurrentTimebox {
-            background-color: #ffffaa;
-        }
-
-        .EditTimebox { 
-            text-align: right;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        input {
-            min-width: 60%;
-            margin-left: 20px;
-            font-size: 16px;
-        }
-
-        button {
-            font-style: 16px;
-            margin-left: 10px;
-        }
-
-        .CurrentTimebox{
-            border: 1px solid grey;
-            border-radius: 5px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .Clock {
-            color: orangered;
-        }
-
-        .ProgressBarRemaining {
-            border: 1px solid orangered;
-            border-radius: 5px;
-            height: 25px;
-            margin-bottom: 20px;
-            padding: 5px;
-            --widthB: 100%;
-            --widthC: calc(var(--widthB) - var(--widthA));
-            background: linear-gradient(to left, orangered var(--widthC), transparent var(--widthC), transparent var(--widthA),#fff var(--widthA));
-            
-        }
-
-        .ProgressBarDefault {
-            border: 1px solid orangered;
-            border-radius: 5px;
-            height: 25px;
-            margin-bottom: 20px;
-            padding: 5px;
-            background: linear-gradient(to right, orangered var(--widthA), transparent var(--widthA));
-            
-
-        }
-
-        .inactive {
-            filter: blur(2px) grayscale(1);
-        }
-        
-        .notVisible {
-            display: none;
-        }
-
-    </style>
-</head>
-<body>
-    <h1>React Course - week 3</h1>
-    <hr>
-    <div id="root"></div>
-</body>
-<script type="text/babel">
-
-function isLengthEqual1(string) {
-    let newString = string;
-    newString.length === 1 ? newString = '0' + newString : newString;
-    return newString;
+function isLengthEqual1(stringToCheck) {
+    let newString = stringToCheck;
+    return newString.length === 1 ? newString = '0' + newString : newString;
 
 }
 
@@ -125,9 +14,10 @@ function hoursValidation(hour) {
     } else if (hour > 23) {
         return String(23);
     } else {
-        return String(hour)
+        return String(hour);
     }
-}
+};
+
 
 function minutesAndSecondsValidation(time) {
     if (time < 0) {
@@ -135,9 +25,9 @@ function minutesAndSecondsValidation(time) {
     } else if (time > 59) {
         return '59'
     } else {
-        return String(time)
+        return String(time);
     }
-}
+};
 
 function milisecondsValidation(miliseconds) {
     if (miliseconds < 0) {
@@ -146,8 +36,7 @@ function milisecondsValidation(miliseconds) {
         return '999'
     } else {
         let newMiliseconds = String(miliseconds);
-        newMiliseconds.length === 1 ? newMiliseconds = '00' + newMiliseconds : newMiliseconds.length === 2 ? newMiliseconds = '0' + newMiliseconds : newMiliseconds;
-        return newMiliseconds;
+        return newMiliseconds.length === 1 ? newMiliseconds = '00' + newMiliseconds : newMiliseconds.length === 2 ? newMiliseconds = '0' + newMiliseconds : newMiliseconds;
     }
 }
 
@@ -361,7 +250,7 @@ class TimeboxCreator extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.props.onCreate({
-            id: uuid.v4(),
+            id: uuidv4(),
             title: this.formInput.current[0].value,
             totalTimeInMinutes: this.formInput.current[1].value
         });
@@ -532,5 +421,3 @@ function App() {
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));
-</script>
-</html>
