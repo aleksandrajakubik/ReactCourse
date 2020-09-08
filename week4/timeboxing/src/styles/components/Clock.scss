@@ -1,3 +1,19 @@
 .Clock {
     color: orangered;
+
+    &__hours {
+        color: darkred;
+    }
+    &__minutes {
+        color: green;
+    }
+    &__seconds {
+        color: darkolivegreen;
+    }
+    &__miliseconds {
+        color: purple;
+    }
+    &__separator {
+        color: pink;
+    }
 }
