@@ -1,0 +1,20 @@
+.ProgressBarRemaining {
+    border: $progress-bar-border;
+    border-radius: $default-border-radius;
+    height: 25px;
+    margin-bottom: 20px;
+    padding: 5px;
+    --widthB: 100%;
+    --widthC: calc(var(--widthB) - var(--widthA));
+    background: linear-gradient(to left, orangered var(--widthC), transparent var(--widthC), transparent var(--widthA),#fff var(--widthA));
+    
+}
+
+.ProgressBarDefault {
+    border: $progress-bar-border;
+    border-radius: $default-border-radius;
+    height: 25px;
+    margin-bottom: 20px;
+    padding: 5px;
+    background: linear-gradient(to right, orangered var(--widthA), transparent var(--widthA));
+}
