@@ -1,20 +1,19 @@
-.ProgressBarRemaining {
+.progress {
     border: $progress-bar-border;
     border-radius: $default-border-radius;
     height: 25px;
     margin-bottom: 20px;
     padding: 5px;
-    --widthB: 100%;
-    --widthC: calc(var(--widthB) - var(--widthA));
-    background: linear-gradient(to left, orangered var(--widthC), transparent var(--widthC), transparent var(--widthA),#fff var(--widthA));
-    
+    background: linear-gradient(to right, orangered var(--timePassed), transparent var(--timePassed));
+
+    &--remaining {
+        --helper: calc(100% - var(--timePassed));
+        background: linear-gradient(to left, orangered var(--helper), transparent var(--helper), transparent var(--timePassed),#fff var(--timePassed));
+    }
+
+    &--color-green {
+        background: linear-gradient(to right, green var(--timePassed), transparent var(--timePassed));
+    }
 }
 
-.ProgressBarDefault {
-    border: $progress-bar-border;
-    border-radius: $default-border-radius;
-    height: 25px;
-    margin-bottom: 20px;
-    padding: 5px;
-    background: linear-gradient(to right, orangered var(--widthA), transparent var(--widthA));
-}
+

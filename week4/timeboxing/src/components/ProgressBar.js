@@ -1,14 +1,14 @@
 import React from "react";
 
-function ProgressBar({ className = "", percent, trackRemaining = true}) {
+function ProgressBar({ className = "", percent, trackRemaining = false}) {
     if (trackRemaining) {
         return (
-            <div className={"ProgressBarRemaining " + className} style = {{"--widthA": `${percent}%`}}>
+            <div className={"progress progress--remaining " + className} style = {{"--timePassed": `${percent}%`}}>
             </div>
         )
     } else {
         return (
-            <div className={"ProgressBarDefault " + className} style = {{"--widthA": `${percent}%`}}>
+            <div className={"progress progress--color-green " + className} style = {{"--timePassed": `${percent}%`}}>
             </div>
         )
     }
