@@ -7,7 +7,6 @@ function TimeboxEditor(props) {
         isEditable,
         onTitleChange,
         onTotalTimeInMinutesChange,
-        onStart,
         onConfirm 
     } = props;
     return (
