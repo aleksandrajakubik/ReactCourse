@@ -43,13 +43,16 @@ function Clock({ className = "", hours = 0, minutes = 2, seconds = 9, milisecond
     let newMinutes = isLengthEqual1(minutesAndSecondsValidation(minutes));
     let newSeconds = isLengthEqual1(minutesAndSecondsValidation(seconds));
     let newMiliseconds = milisecondsValidation(miliseconds);
-    return <h2 className = {"Clock " + className}>Time left: 
+    // throw new Error("AAAAAAAAAAA!");
+    return (
+        <h2 className = {"Clock " + className}>Time left: 
         <span className = "Clock__hours">{newHours}</span>
         <span className = "Clock__separator">:</span>
         <span className = "Clock__minutes">{newMinutes}</span>
         <span className = "Clock__separator">:</span>
         <span className = "Clock__seconds">{newSeconds}</span>.
         <span className = "Clock__miliseconds">{newMiliseconds}</span></h2>
+    )
 }
 
 export default Clock;

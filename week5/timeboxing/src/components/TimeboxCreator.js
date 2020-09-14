@@ -14,7 +14,6 @@ class TimeboxCreator extends React.Component {
             title: this.formInput.current[0].value,
             totalTimeInMinutes: this.formInput.current[1].value
         });
-        console.log(this.formInput)
         this.formInput.current[0].value = "";
         this.formInput.current[1].value = "";
     }

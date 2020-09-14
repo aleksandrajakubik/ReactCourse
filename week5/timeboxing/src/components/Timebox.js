@@ -13,6 +13,7 @@ class Timebox extends React.Component {
                     })
         )
     }
+
     render() {
         const { 
             title, 
@@ -20,6 +21,10 @@ class Timebox extends React.Component {
             onDelete, 
             onEdit 
         } = this.props;
+
+        if (totalTimeInMinutes <= 0) {
+            throw new Error("Total time must be greater than zero")
+        }
         return (
             <div className="Timebox">
                 <h3>{title} - {totalTimeInMinutes} min.</h3>

@@ -4,7 +4,7 @@ import CurrentTimebox from "./CurrentTimebox";
 
 class EditableTimebox extends React.Component {
     state = {
-        title: "I'm learning to move state up!",
+        title: "I'm learning how to write tests!",
         totalTimeInMinutes: 20,
         isEditable: true
     }
