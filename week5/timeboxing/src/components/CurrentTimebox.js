@@ -1,6 +1,7 @@
 import React from "react";
 import ProgressBar from "./ProgressBar";
 import Clock from "./Clock";
+import { getMinutesAndSecondsFromDurationInSeconds } from "./../lib/time"
 
 class CurrentTimebox extends React.Component {
     constructor(props) {
@@ -16,14 +17,7 @@ class CurrentTimebox extends React.Component {
         this.togglePause = this.togglePause.bind(this);
         this.intervalId = null;
     }
-    componentDidMount() {
-        console.count("componentDidMount");
-    }
-    // componentDidUpdate() {
-    //     console.count("componentDidUpdate");
-    // }
     componentWillUnmount() {
-        console.count("componentWillUnmount");
         this.stopTimer();
     }
 
@@ -94,8 +88,8 @@ class CurrentTimebox extends React.Component {
         } = this.props;
         const totalTimeInSeconds = totalTimeInMinutes * 60;
         const timeLeftInSeconds = totalTimeInSeconds - elapsedTimeInSeconds;
-        const minutesLeft = Math.floor(timeLeftInSeconds / 60);
-        const secondsLeft = Math.floor(timeLeftInSeconds % 60);
+        const  [minutesLeft, secondsLeft ] = getMinutesAndSecondsFromDurationInSeconds(timeLeftInSeconds);
+
         const progressInPercent = (elapsedTimeInSeconds / totalTimeInSeconds) * 100.0;
         return (
             <div className={`CurrentTimebox ${isEditable ? "inactive" : ""}`}>
