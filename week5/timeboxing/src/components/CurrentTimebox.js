@@ -19,9 +19,9 @@ class CurrentTimebox extends React.Component {
     componentDidMount() {
         console.count("componentDidMount");
     }
-    componentDidUpdate() {
-        console.count("componentDidUpdate");
-    }
+    // componentDidUpdate() {
+    //     console.count("componentDidUpdate");
+    // }
     componentWillUnmount() {
         console.count("componentWillUnmount");
         this.stopTimer();

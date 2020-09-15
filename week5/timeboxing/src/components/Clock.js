@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 function isLengthEqual1(stringToCheck) {
     let newString = stringToCheck;
@@ -38,12 +39,12 @@ function milisecondsValidation(miliseconds) {
     }
 }
 
-function Clock({ className = "", hours = 0, minutes = 2, seconds = 9, miliseconds = 0}) {
+function Clock({ className, hours, minutes, seconds, miliseconds}) {
     let newHours = isLengthEqual1(hoursValidation(hours));
     let newMinutes = isLengthEqual1(minutesAndSecondsValidation(minutes));
     let newSeconds = isLengthEqual1(minutesAndSecondsValidation(seconds));
     let newMiliseconds = milisecondsValidation(miliseconds);
-    // throw new Error("AAAAAAAAAAA!");
+
     return (
         <h2 className = {"Clock " + className}>Time left: 
         <span className = "Clock__hours">{newHours}</span>
@@ -53,6 +54,27 @@ function Clock({ className = "", hours = 0, minutes = 2, seconds = 9, milisecond
         <span className = "Clock__seconds">{newSeconds}</span>.
         <span className = "Clock__miliseconds">{newMiliseconds}</span></h2>
     )
+}
+
+Clock.defaultProps = {
+     className: "",
+     hours: 0,
+     miliseconds: 0
+}
+
+// function NonNegativeNumberType(props, propName, componentName) {
+//     if (props[propName] < 0) {
+//         return new Error(`Invalid prop '${propName}' issued to component '${componentName}'. It as to be greater or equal to 0.`)
+//     }
+// }
+
+const NumberOrStringType = PropTypes.oneOfType([PropTypes.number, PropTypes.string]);
+Clock.propTypes = {
+    className: PropTypes.string.isRequired,
+    hours: NumberOrStringType.isRequired,
+    minutes: NumberOrStringType.isRequired,
+    seconds: NumberOrStringType.isRequired,
+    miliseconds: NumberOrStringType.isRequired
 }
 
 export default Clock;

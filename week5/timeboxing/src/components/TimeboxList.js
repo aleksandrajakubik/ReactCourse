@@ -2,7 +2,7 @@ import React from "react";
 
 import TimeboxCreator from "./TimeboxCreator";
 import Timebox from "./Timebox";
-import Error from "./Error";
+import ErrorBoundary from "./ErrorBoundary";
 
 
 class TimeboxList extends React.Component {
@@ -17,7 +17,6 @@ class TimeboxList extends React.Component {
     }
 
     addTimebox = (timebox) => {
-        throw new Error("We were unable to create timebox");
         this.setState(prevState => {
             const timeboxes = [timebox, ...prevState.timeboxes];
             return { timeboxes };
@@ -52,7 +51,7 @@ class TimeboxList extends React.Component {
         return (
             <>
                 <TimeboxCreator onCreate = {this.handleCreate} />
-                <Error message = "Ups... Something went wrong in list! :(">
+                <ErrorBoundary message = "Ups... Something went wrong in list! :(">
                 {  
                     this.state.timeboxes.map((timebox, index) => (
                         <Timebox 
@@ -64,7 +63,7 @@ class TimeboxList extends React.Component {
                             
                         />
                 ))}
-                </Error>
+                </ErrorBoundary>
 
             </>
         )
