@@ -6,7 +6,7 @@ class EditableTimebox extends React.Component {
     state = {
         title: "I'm learning how to write tests!",
         totalTimeInMinutes: 20,
-        isEditable: true
+        isEditable: false
     }
 
 
@@ -39,7 +39,7 @@ class EditableTimebox extends React.Component {
                             onTitleChange={this.handleTitleChange}
                             onTotalTimeInMinutesChange={this.handleTotalTimeInMinutesChange}
                         />
-                        ) : (
+                    ) : (
                         <CurrentTimebox 
                             title={title} 
                             totalTimeInMinutes={totalTimeInMinutes}
