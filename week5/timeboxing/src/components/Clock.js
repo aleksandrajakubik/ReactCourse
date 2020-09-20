@@ -64,7 +64,7 @@ Clock.defaultProps = {
 
 // function NonNegativeNumberType(props, propName, componentName) {
 //     if (props[propName] < 0) {
-//         return new Error(`Invalid prop '${propName}' issued to component '${componentName}'. It as to be greater or equal to 0.`)
+//         return new Error(`Invalid prop '${propName}' issued to component '${componentName}'. It has to be greater or equal to 0.`)
 //     }
 // }
 
