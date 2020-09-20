@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './logo.svg';
+import styled from "styled-components";
 import './App.css';
 
 function App() {
@@ -9,12 +9,42 @@ function App() {
         <Button type = "danger">Click me</Button>
         <PrimaryButton type = "primary">Click me</PrimaryButton>
         <DangerousButton >Click me</DangerousButton>
+        <StyledButton>Click me too</StyledButton>
+        <DangerButton>Warning!</DangerButton>
 
       </header>
     </div>
   );
 }
 
+const StyledButton = styled.button`
+  --normal-background: green;
+  --hover-background: darkgreen;
+  --active-background: lightgreen;
+  outline: none;
+  font-size: 20px; 
+  color: white; 
+  background-color: var(--normal-background);
+  border: none;
+  border-radius: ${props => props.borderRadius || 5}px;
+  padding: 10px;
+  margin: 10px;  
+
+  &:hover {
+    background-color: var(--hover-background);
+  }
+  
+  &:active{
+    background-color: var(--active-background);
+  }
+  
+`;
+
+const DangerButton = styled(StyledButton)`
+  --normal-background: red;
+  --hover-background: darkred;
+  --active-background: pink;
+`;
 
 function Button(props) {
   const buttonStyle = {};
@@ -37,7 +67,7 @@ function DangerousButton(props) {
   buttonStyle["--hover-background"] = "darkred";
   buttonStyle["--active-background"] = "pink";
   buttonStyle["--border-radius"] = "10px";
-  return <button className="Button" style={buttonStyle}>{props.children}</button>
+  return <StyledButton borderRadius = {10} style={buttonStyle}>{props.children}</StyledButton>
 }
 
 export default App;
