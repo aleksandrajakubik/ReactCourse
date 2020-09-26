@@ -7,7 +7,7 @@ import ErrorBoundary from "./ErrorBoundary";
 
 class TimeboxList extends React.Component {
     state = {
-        timeboxes: [
+        "timeboxes": [
             { "id": "1", "title": "Im learning promises", "totalTimeInMinutes": 25 },
             { "id": "2", "title": "Im learning REST API", "totalTimeInMinutes": 15 },
             { "id": "3", "title": "Im practising async/await", "totalTimeInMinutes": 25 },

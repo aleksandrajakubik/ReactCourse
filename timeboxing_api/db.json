@@ -1,0 +1,72 @@
+{
+  "timeboxes": [
+    {
+      "id": 1,
+      "title": "Im learning promises",
+      "totalTimeInMinutes": 25
+    },
+    {
+      "id": 2,
+      "title": "Im learning REST API",
+      "totalTimeInMinutes": 15
+    },
+    {
+      "id": 3,
+      "title": "Im practising async/await",
+      "totalTimeInMinutes": 25
+    },
+    {
+      "id": 4,
+      "title": "Im learning fetch",
+      "totalTimeInMinutes": 10
+    },
+    {
+      "title": "New title",
+      "totalTimeInMinutes": 20,
+      "id": 6
+    },
+    {
+      "title": "Very new title",
+      "totalTimeInMinutes": 20,
+      "id": 7
+    }
+  ],
+  "people": [
+    {
+      "email": "alice@example.com",
+      "first_name": "Alice",
+      "last_name": "Example",
+      "id": 1
+    },
+    {
+      "email": "bob@example.com",
+      "first_name": "Bob",
+      "last_name": "Meyer",
+      "id": 2
+    },
+    {
+      "email": "willfitzgerald@gmail.com",
+      "first_name": "Will",
+      "last_name": "Fitzgerald",
+      "id": 3
+    },
+    {
+      "email": "caroline_black@example.com",
+      "first_name": "Caroline",
+      "last_name": "Black",
+      "id": 5
+    },
+    {
+      "email": "mary34@example.com",
+      "first_name": "Mary",
+      "last_name": "Green",
+      "id": 6
+    },
+    {
+      "email": "andrewkowalski@example.com",
+      "first_name": "Andrew",
+      "last_name": "Kowalski",
+      "id": 7
+    }
+  ]
+}
