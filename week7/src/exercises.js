@@ -32,4 +32,10 @@ function isEven(num) {
 function slowIsEven(num, ms=1000) {
     return Promise.all([wait(ms), isEven(num)]);
 }
-slowIsEven(2, 4000).then(([x, y]) => console.log(y))
+// slowIsEven(2, 4000).then(([x, y]) => console.log(y))
+async function asyncSlowIseven(num, ms=1000) {
+    await wait(ms)
+    isEven(num)
+        .then((result) => console.log(result))
+        .catch((error) => console.log(error))
+}
