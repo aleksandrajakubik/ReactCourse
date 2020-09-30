@@ -16,19 +16,9 @@
       "totalTimeInMinutes": 25
     },
     {
-      "id": 4,
-      "title": "Im learning fetch",
-      "totalTimeInMinutes": 10
-    },
-    {
-      "title": "New title",
-      "totalTimeInMinutes": 20,
-      "id": 6
-    },
-    {
-      "title": "Very new title",
-      "totalTimeInMinutes": 20,
-      "id": 7
+      "title": "I'm learning Fetch",
+      "totalTimeInMinutes": "12",
+      "id": 4
     }
   ],
   "people": [
