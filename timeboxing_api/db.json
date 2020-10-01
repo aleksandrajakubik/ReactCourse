@@ -1,15 +1,17 @@
 {
+  "users": [
+    {
+      "email": "bob@example.com",
+      "password": "$2a$10$CcW3w.Fwx3aooR7q/KKHdO0bSxvtl9xb45OBhLDdCv4dtboCHroky",
+      "id": 1
+    },
+    {
+      "email": "alice@example.com",
+      "password": "$2a$10$SC7iB04n9PpPkiTQQq0czOiR3f3ldIpfWVv5hbo7j33fQKkVYr2oi",
+      "id": 2
+    }
+  ],
   "timeboxes": [
-    {
-      "id": 1,
-      "title": "Im learning promises",
-      "totalTimeInMinutes": 25
-    },
-    {
-      "id": 2,
-      "title": "Im learning REST API",
-      "totalTimeInMinutes": 15
-    },
     {
       "id": 3,
       "title": "Im practising async/await",
