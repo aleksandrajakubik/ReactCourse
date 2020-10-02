@@ -53,7 +53,7 @@ class App extends React.Component {
                                     Hello {this.getUserEmail()}
                                     <a onClick = {this.handleLogout} className = "header__logout-link" href ="#">Log out</a>
                                 </header>
-                                <TimeboxList />
+                                <TimeboxList accessToken={this.state.accessToken}/>
                                 <ErrorBoundary message = "Something is not working in EditableTimebox..">
                                     <EditableTimebox />
                                 </ErrorBoundary>

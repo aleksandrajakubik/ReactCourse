@@ -21,6 +21,11 @@
       "title": "I'm learning Fetch",
       "totalTimeInMinutes": "12",
       "id": 4
+    },
+    {
+      "title": "I'm learning authentication",
+      "totalTimeInMinutes": "30",
+      "id": 5
     }
   ],
   "people": [
