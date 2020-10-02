@@ -1,3 +1,5 @@
+import makeRequest from "./makeFetchRequest";
+
 const BASE_URL = "http://localhost:4000/timeboxes";
 const FetchTimeboxesAPI = {
     getAllTimeboxes: async function(accesToken) {
@@ -27,22 +29,3 @@ const FetchTimeboxesAPI = {
 }
 
 export default FetchTimeboxesAPI;
-
-async function makeRequest(url, method, body, accesToken) {
-    const jsonBody = body ? JSON.stringify(body) : undefined;
-    const headers = {
-        "Content-Type": "application/json"
-    }
-    if (accesToken) {
-        headers["Authorization"] = `Bearer ${accesToken}`;
-    }
-    const response = await window.fetch(url, {
-    method,
-    headers,
-    body: jsonBody 
-    });
-    if (!response.ok) {
-        throw new Error("Something went wrong!")
-    }
-    return response;
-}
