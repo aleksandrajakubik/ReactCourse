@@ -6,6 +6,7 @@
 @import "./components/Timebox.scss";
 @import "./components/TimeboxCreator.scss";
 @import "./components/TimeboxEditor.scss";
+@import "./components/LoginForm.scss";
 
 input {
     min-width: 60%;
@@ -16,4 +17,14 @@ input {
 button {
     font-style: 16px;
     margin-left: 10px;
+}
+
+.header {
+    display: flex;
+    justify-content: flex-end;
+    margin: 15px;
+
+    &__logout-link {
+        margin-left: 10px;
+    }
 }
