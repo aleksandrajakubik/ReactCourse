@@ -4,6 +4,7 @@ import TimeboxCreator from "./TimeboxCreator";
 import Timebox from "./Timebox";
 import ErrorBoundary from "./ErrorBoundary";
 import TimeboxesAPI from "../api/FetchTimeboxesApi"
+import AuthenticationContext from "../contexts/AuthenticationContext";
 
 
 class TimeboxList extends React.Component {
@@ -15,7 +16,7 @@ class TimeboxList extends React.Component {
     }
 
     componentDidMount() {
-        TimeboxesAPI.getAllTimeboxes(this.props.accessToken).then(
+        TimeboxesAPI.getAllTimeboxes(this.context.accessToken).then(
             (timeboxes) => this.setState({ timeboxes })
         ).catch(
             (error) => this.setState({ error })
@@ -25,7 +26,7 @@ class TimeboxList extends React.Component {
     }
 
     addTimebox = (timebox) => {
-        TimeboxesAPI.addTimebox(timebox, this.props.accessToken).then(
+        TimeboxesAPI.addTimebox(timebox, this.context.accessToken).then(
             (addedTimebox) => this.setState(prevState => {
                 const timeboxes = [...prevState.timeboxes, addedTimebox];
                 return { timeboxes };
@@ -35,7 +36,7 @@ class TimeboxList extends React.Component {
     }
 
     removeTimebox = (indexToRemove) => {
-        TimeboxesAPI.removeTimebox(this.state.timeboxes[indexToRemove], this.props.accessToken)
+        TimeboxesAPI.removeTimebox(this.state.timeboxes[indexToRemove], this.context.accessToken)
             .then(
                 () => this.setState(prevState => {
                     const timeboxes = prevState.timeboxes.filter((timebox, index) => index !== indexToRemove);
@@ -46,7 +47,7 @@ class TimeboxList extends React.Component {
     }
 
     updateTimebox = (indexToUpdate, timeboxToUpdate) => {
-        TimeboxesAPI.replaceTimebox(timeboxToUpdate, this.props.accessToken)
+        TimeboxesAPI.replaceTimebox(timeboxToUpdate, this.context.accessToken)
         .then(
             (updatedTimebox) => this.setState(prevState => {
                 const timeboxes = prevState.timeboxes.map((timebox, index) => 
@@ -90,5 +91,7 @@ class TimeboxList extends React.Component {
         )
     }
 };
+
+TimeboxList.contextType = AuthenticationContext;
 
 export default TimeboxList;

@@ -1,10 +1,10 @@
 import React from 'react';
 import UserGreeting from "./UserGreeting";
 
-function Header({accessToken, onLogout}) {
+function Header({ onLogout}) {
     return (
         <header className="header">
-            <UserGreeting accessToken={accessToken} />
+            <UserGreeting />
             <a 
                 onClick = {onLogout} 
                 className = "header__logout-link" 

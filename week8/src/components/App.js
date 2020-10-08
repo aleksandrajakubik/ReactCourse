@@ -3,6 +3,7 @@ import ErrorBoundary from "./ErrorBoundary";
 import LoginForm from "./LoginForm";
 import AuthenticationAPI from "../api/FetchAuthenticationApi";
 import AuthenticatedApp from "./AuthenticatedApp";
+import AuthenticationContext from "../contexts/AuthenticationContext";
 
 
 
@@ -44,9 +45,9 @@ class App extends React.Component {
                 <ErrorBoundary message = "Something is not working in aplication..">
                     {
                         this.isUserLoggedIn() ? 
-                            <>
-                                <AuthenticatedApp accessToken={this.state.accessToken} onLogout={this.handleLogout}/>
-                            </> : 
+                            <AuthenticationContext.Provider value={ {accessToken: this.state.accessToken} }>
+                                <AuthenticatedApp onLogout={this.handleLogout}/>
+                            </AuthenticationContext.Provider> : 
                             <LoginForm 
                             errorMessage={this.state.previousLoginAttemptFailed ? "Failed to login" : null}
                                 onLoginAttempt={this.handleLoginAttempt}/>

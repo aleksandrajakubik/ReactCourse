@@ -13,11 +13,6 @@
   ],
   "timeboxes": [
     {
-      "id": 3,
-      "title": "Im practising async/await",
-      "totalTimeInMinutes": 25
-    },
-    {
       "title": "I'm learning Fetch",
       "totalTimeInMinutes": "12",
       "id": 4
