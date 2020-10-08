@@ -1,17 +1,24 @@
 import React from 'react';
+import AuthenticationContext from '../contexts/AuthenticationContext';
 import UserGreeting from "./UserGreeting";
 
-function Header({ onLogout}) {
+function Header(props) {
     return (
         <header className="header">
             <UserGreeting />
-            <a 
-                onClick = {onLogout} 
-                className = "header__logout-link" 
-                href ="#"
-            >
-                Log out
-            </a>
+            <AuthenticationContext.Consumer>
+            {
+                ({onLogout}) => (
+                    <a 
+                    onClick = {onLogout} 
+                    className = "header__logout-link" 
+                    href ="#"
+                    >
+                        Log out
+                    </a>
+                )
+            }
+            </AuthenticationContext.Consumer>
         </header> 
     )
 }

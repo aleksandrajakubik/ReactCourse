@@ -45,8 +45,8 @@ class App extends React.Component {
                 <ErrorBoundary message = "Something is not working in aplication..">
                     {
                         this.isUserLoggedIn() ? 
-                            <AuthenticationContext.Provider value={ {accessToken: this.state.accessToken} }>
-                                <AuthenticatedApp onLogout={this.handleLogout}/>
+                            <AuthenticationContext.Provider value={ {accessToken: this.state.accessToken, onLogout: this.handleLogout} }>
+                                <AuthenticatedApp />
                             </AuthenticationContext.Provider> : 
                             <LoginForm 
                             errorMessage={this.state.previousLoginAttemptFailed ? "Failed to login" : null}

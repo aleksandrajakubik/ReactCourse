@@ -4,10 +4,10 @@ import TimeboxList from "./TimeboxList";
 import EditableTimebox from "./EditableTimebox";
 import ErrorBoundary from "./ErrorBoundary";
 
-function AuthenticatedApp({accessToken, onLogout}) {
+function AuthenticatedApp(props) {
     return (
         <>
-        <Header onLogout={onLogout}/>
+        <Header />
         <TimeboxList />
         <ErrorBoundary message = "Something is not working in EditableTimebox..">
             <EditableTimebox />
