@@ -4,7 +4,9 @@ import EditableTimebox from "./EditableTimebox";
 import ErrorBoundary from "./ErrorBoundary";
 import LoginForm from "./LoginForm";
 import AuthenticationAPI from "../api/FetchAuthenticationApi";
-import jwt from "jsonwebtoken";
+import Header from "./Header";
+
+
 
 class App extends React.Component {
     state = {
@@ -16,10 +18,6 @@ class App extends React.Component {
         return !!this.state.accessToken;
     }
 
-    getUserEmail() {
-        const decodedToken = jwt.decode(this.state.accessToken);
-        return decodedToken.email;
-    }
 
     handleLoginAttempt = (credentials) => {
         AuthenticationAPI.login(credentials)
@@ -49,10 +47,7 @@ class App extends React.Component {
                     {
                         this.isUserLoggedIn() ? 
                             <>
-                                <header className="header">
-                                    Hello {this.getUserEmail()}
-                                    <a onClick = {this.handleLogout} className = "header__logout-link" href ="#">Log out</a>
-                                </header>
+                                <Header accessToken={this.state.accessToken} onLogout={this.handleLogout}/>
                                 <TimeboxList accessToken={this.state.accessToken}/>
                                 <ErrorBoundary message = "Something is not working in EditableTimebox..">
                                     <EditableTimebox />
