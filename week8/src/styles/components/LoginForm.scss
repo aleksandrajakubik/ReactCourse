@@ -1,0 +1,16 @@
+.LoginForm {
+    text-align: right;
+    border: $default-border;
+    border-radius: $default-border-radius;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    &__error-message {
+        margin: 15px auto;
+        text-align: center;
+        border: solid 1px red;
+        padding: 10px;
+        border-radius: $default-border-radius;
+        color: red;
+    }
+}
