@@ -1,9 +1,11 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import AuthenticationContext from '../contexts/AuthenticationContext';
 import UserGreeting from "./UserGreeting";
 
+const headerRoot = document.getElementById("header")
 function Header(props) {
-    return (
+    return ReactDOM.createPortal(
         <header className="header">
             <UserGreeting />
             <AuthenticationContext.Consumer>
@@ -20,7 +22,7 @@ function Header(props) {
             }
             </AuthenticationContext.Consumer>
         </header> 
-    )
+    , headerRoot)
 }
 
 export default Header;

@@ -1,7 +1,7 @@
 import React from 'react';
 import Quotes from 'inspirational-quotes';
 
-function InspirationalQuote({}) {
+function InspirationalQuote() {
     const { text, author } = Quotes.getQuote()
     return (
         <figure>
