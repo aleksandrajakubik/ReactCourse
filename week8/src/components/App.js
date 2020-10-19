@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ErrorBoundary from "./ErrorBoundary";
 import LoginForm from "./LoginForm";
 import AuthenticationAPI from "../api/FetchAuthenticationApi";
@@ -7,56 +7,54 @@ import AuthenticationContext from "../contexts/AuthenticationContext";
 
 
 
-class App extends React.Component {
-    state = {
+function App(){
+    const [login, setLogin] = useState({
         accessToken: null,
         previousLoginAttemptFailed: false
+    })
+
+    function isUserLoggedIn() {
+        return !!login.accessToken;
     }
 
-    isUserLoggedIn() {
-        return !!this.state.accessToken;
-    }
 
-
-    handleLoginAttempt = (credentials) => {
+    function handleLoginAttempt(credentials) {
         AuthenticationAPI.login(credentials)
             .then( ( {accessToken }) => {
-                this.setState({
+                setLogin({
                     accessToken,
                     previousLoginAttemptFailed: false
                 })
             }).catch( () => {
-                this.setState({
+                setLogin({
                     previousLoginAttemptFailed: true
                 })
             })
     }
 
-    handleLogout = () => {
-        this.setState({
+    function handleLogout() {
+        setLogin({
             accessToken: null,
             previousLoginAttemptFailed: false
         })
     }
 
-    render() {
         return (
             <div className="App">
                 <ErrorBoundary message = "Something is not working in aplication..">
                     {
-                        this.isUserLoggedIn() ? 
-                            <AuthenticationContext.Provider value={ {accessToken: this.state.accessToken, onLogout: this.handleLogout} }>
+                        isUserLoggedIn() ? 
+                            <AuthenticationContext.Provider value={ {accessToken: login.accessToken, onLogout: handleLogout} }>
                                 <AuthenticatedApp />
                             </AuthenticationContext.Provider> : 
                             <LoginForm 
-                            errorMessage={this.state.previousLoginAttemptFailed ? "Failed to login" : null}
-                                onLoginAttempt={this.handleLoginAttempt}/>
+                            errorMessage={login.previousLoginAttemptFailed ? "Failed to login" : null}
+                                onLoginAttempt={handleLoginAttempt}/>
                     }
     
                 </ErrorBoundary>
             </div>
         )
-    }
 }
 
 export default App;
