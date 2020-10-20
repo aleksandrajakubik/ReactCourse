@@ -1,14 +1,26 @@
-import React from 'react';
-import Quotes from 'inspirational-quotes';
+import React, { useState, useEffect } from 'react';
 
 function InspirationalQuote() {
-    const { text, author } = Quotes.getQuote()
+    const [quote, setQuote] = useState();
+    useEffect(() => {
+        import("inspirational-quotes").then(
+            (Quotes) => {
+                setQuote(Quotes.getQuote())
+            }
+        ).catch(() => console.log("Couldn't load quotes"));     
+    })
     return (
-        <figure>
-            <blockquote>{text}</blockquote>
-            <figcaption><cite>{author}</cite></figcaption>
-        </figure>
-    )
+        <> 
+            { quote ?
+            <figure>
+                <blockquote>{quote.text}</blockquote>
+                <figcaption><cite>{quote.author}</cite></figcaption>
+            </figure> :
+            "..."
+            }
+        </>
+    );
+
 }
 
-export default InspirationalQuote
+export default InspirationalQuote;
