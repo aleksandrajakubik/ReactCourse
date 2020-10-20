@@ -13,8 +13,8 @@
   ],
   "timeboxes": [
     {
-      "title": "I'm learning Fetch",
-      "totalTimeInMinutes": "12",
+      "title": "I'm learning useEffect",
+      "totalTimeInMinutes": "15",
       "id": 4
     },
     {

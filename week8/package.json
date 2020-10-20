@@ -19,7 +19,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "json-server": "cd .. && cd timeboxing_api && json-server-auth --watch db.json --port 4000 -m  -r routes.json"
   },
   "eslintConfig": {
     "extends": "react-app"
