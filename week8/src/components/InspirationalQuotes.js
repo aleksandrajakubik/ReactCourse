@@ -8,7 +8,7 @@ function InspirationalQuote() {
                 setQuote(Quotes.getQuote())
             }
         ).catch(() => console.log("Couldn't load quotes"));     
-    })
+    }, [])
     return (
         <> 
             { quote ?
