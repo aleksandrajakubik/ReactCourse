@@ -21,6 +21,11 @@
       "title": "I'm learning useState",
       "totalTimeInMinutes": "25",
       "id": 5
+    },
+    {
+      "title": "I'm learning useRef",
+      "totalTimeInMinutes": "25",
+      "id": 6
     }
   ],
   "people": [
