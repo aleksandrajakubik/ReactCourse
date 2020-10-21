@@ -1,49 +1,45 @@
-import React from "react";
+import React, { useRef } from "react";
 
-class LoginForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.emailInput = React.createRef();
-        this.passwordInput = React.createRef();
-    }
+function LoginForm({ onLoginAttempt, errorMessage }) {
 
-    handleSubmit = (event) => {
+    const emailInput = useRef();
+    const passwordInput = useRef();
+
+    const handleSubmit = (event) => {
         event.preventDefault();
-        this.props.onLoginAttempt({
-            email: this.emailInput.current.value,
-            password: this.passwordInput.current.value,
+        onLoginAttempt({
+            email: emailInput.current.value,
+            password: passwordInput.current.value,
         });
-        this.emailInput.current.value = "";
-        this.passwordInput.current.value = "";
+        emailInput.current.value = "";
+        passwordInput.current.value = "";
     }
     
-    render() {
-        return (
-            <form onSubmit = {this.handleSubmit} className = "LoginForm">
-                { this.props.errorMessage ? 
-                <div className="LoginForm__error-message">{this.props.errorMessage}</div>:
-                null
-                }
-                <label>
-                    Email:
-                    <input 
-                        ref = {this.emailInput}
-                        type="text" 
-                        defaultValue = "alice@example.com"
-                    />
-                </label><br /> 
-                <label>
-                    Password:
-                    <input 
-                        ref = {this.passwordInput}
-                        type="password" 
-                        defaultValue = "secret"
-                    />
-                </label><br />
-                <button>Log in</button>
-            </form>
-        )
-    }
+    return (
+        <form onSubmit = {handleSubmit} className = "LoginForm">
+            { errorMessage ? 
+            <div className="LoginForm__error-message">{errorMessage}</div>:
+            null
+            }
+            <label>
+                Email:
+                <input 
+                    ref = {emailInput}
+                    type="text" 
+                    defaultValue = "alice@example.com"
+                />
+            </label><br /> 
+            <label>
+                Password:
+                <input 
+                    ref = {passwordInput}
+                    type="password" 
+                    defaultValue = "secret"
+                />
+            </label><br />
+            <button>Log in</button>
+        </form>
+    )
 }
 
 export default LoginForm;
