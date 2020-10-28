@@ -5,6 +5,7 @@ import ErrorBoundary from "./ErrorBoundary";
 import TimeboxesAPI from "../api/FetchTimeboxesApi"
 import AuthenticationContext from "../contexts/AuthenticationContext";
 import { TimeboxesList } from "./TimeboxesList";
+import Timebox from "./Timebox";
 
 
 function TimeboxesManager() {
@@ -64,6 +65,17 @@ function TimeboxesManager() {
             console.log("There is error while creating timebox: ", error);
         }
     }
+
+    function renderTimebox(timebox, index){
+        return <Timebox
+            key={timebox.id}
+            title={timebox.title}
+            totalTimeInMinutes={timebox.totalTimeInMinutes}
+            onDelete={() => removeTimebox(index)}
+            onEdit={(newTitle, newTotalTimeInMinutes) => updateTimebox(index, { ...timebox, title: newTitle, totalTimeInMinutes: newTotalTimeInMinutes })} />
+    }
+
+
     return (
         <>
             <TimeboxCreator onCreate = {handleCreate} />
@@ -72,8 +84,7 @@ function TimeboxesManager() {
             <ErrorBoundary message = "Ups... Something went wrong in list! :(">
             <TimeboxesList 
                 timeboxes={timeboxes}
-                onTimeboxDelete={removeTimebox}
-                onTimeboxEdit={updateTimebox}
+                renderTimebox={renderTimebox}
             />
             </ErrorBoundary>
         </>
