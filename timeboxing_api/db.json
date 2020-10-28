@@ -13,13 +13,8 @@
   ],
   "timeboxes": [
     {
-      "title": "I'm learning useEffect",
-      "totalTimeInMinutes": "15",
-      "id": 4
-    },
-    {
-      "title": "I'm learning useState",
-      "totalTimeInMinutes": "25",
+      "title": "I'm learning HOC",
+      "totalTimeInMinutes": "20",
       "id": 5
     },
     {

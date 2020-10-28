@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 
 import TimeboxCreator from "./TimeboxCreator";
-import Timebox from "./Timebox";
 import ErrorBoundary from "./ErrorBoundary";
 import TimeboxesAPI from "../api/FetchTimeboxesApi"
 import AuthenticationContext from "../contexts/AuthenticationContext";
+import { TimeboxesList } from "./TimeboxesList";
 
 
-function TimeboxList() {
+function TimeboxesManager() {
     const [timeboxes, setTimeboxes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null)
@@ -70,22 +70,16 @@ function TimeboxList() {
             { loading ? "Timeboxes are loading..." : null}
             { error ? "Something went wrong... ": null}
             <ErrorBoundary message = "Ups... Something went wrong in list! :(">
-            {  
-                timeboxes.map((timebox, index) => (
-                    <Timebox 
-                        key={timebox.id}
-                        title={timebox.title} 
-                        totalTimeInMinutes={timebox.totalTimeInMinutes} 
-                        onDelete={() => removeTimebox(index)}
-                        onEdit={(newTitle, newTotalTimeInMinutes) => updateTimebox(index, {...timebox, title: newTitle, totalTimeInMinutes: newTotalTimeInMinutes})}
-                        
-                    />
-            ))}
+            <TimeboxesList 
+                timeboxes={timeboxes}
+                onTimeboxDelete={removeTimebox}
+                onTimeboxEdit={updateTimebox}
+            />
             </ErrorBoundary>
-
         </>
     )
 };
 
 
-export default TimeboxList;
+export default TimeboxesManager;
+

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { InspirationalQuote } from './InspirationalQuote';
 
-function InspirationalQuote() {
+function InspirationalQuoteManager() {
     const [quote, setQuote] = useState();
     useEffect(() => {
         import("inspirational-quotes").then(
@@ -11,11 +12,11 @@ function InspirationalQuote() {
     }, [])
     return (
         <> 
-            { quote ?
-            <figure>
-                <blockquote>{quote.text}</blockquote>
-                <figcaption><cite>{quote.author}</cite></figcaption>
-            </figure> :
+            { quote ? 
+                <InspirationalQuote 
+                    text={quote.text} 
+                    author={quote.author}
+                /> :
             "..."
             }
         </>
@@ -23,4 +24,4 @@ function InspirationalQuote() {
 
 }
 
-export default InspirationalQuote;
+export default InspirationalQuoteManager;

@@ -1,19 +1,19 @@
 import React from 'react';
 import Header from "./Header";
-import TimeboxList from "./TimeboxList";
+import TimeboxesManager from "./TimeboxesManager";
 import EditableTimebox from "./EditableTimebox";
 import ErrorBoundary from "./ErrorBoundary";
-import InspirationalQuotes from "./InspirationalQuotes";
+import InspirationalQuotesManager from "./InspirationalQuotesManager";
 
 function AuthenticatedApp(props) {
     return (
         <>
         <Header />
-        <TimeboxList />
+        <TimeboxesManager />
         <ErrorBoundary message = "Something is not working in EditableTimebox..">
             <EditableTimebox />
         </ErrorBoundary>
-        <InspirationalQuotes />
+        <InspirationalQuotesManager />
         </>
     )
 }
