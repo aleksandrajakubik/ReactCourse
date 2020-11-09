@@ -1,5 +1,4 @@
 import React from "react";
-import EditTimebox from "./EditTimebox";
 import PropTypes from "prop-types";
 
 class Timebox extends React.Component {

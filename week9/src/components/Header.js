@@ -1,28 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import AuthenticationContext from '../contexts/AuthenticationContext';
-import UserGreeting from "./UserGreeting";
 
-const headerRoot = document.getElementById("header")
-function Header(props) {
-    return ReactDOM.createPortal(
+function Header({ children }) {
+    if(React.Children.count(children) < 1){
+        throw new Error("Header has to have at least one child!")
+    }
+    console.log(children)
+    console.log(React.Children.count(children))
+    return (
         <header className="header">
-            <UserGreeting />
-            <AuthenticationContext.Consumer>
-            {
-                ({onLogout}) => (
-                    <a 
-                    onClick = {onLogout} 
-                    className = "header__logout-link" 
-                    href ="#"
-                    >
-                        Log out
-                    </a>
-                )
-            }
-            </AuthenticationContext.Consumer>
+            {children}
         </header> 
-    , headerRoot)
+    )
+
 }
 
 export default Header;
