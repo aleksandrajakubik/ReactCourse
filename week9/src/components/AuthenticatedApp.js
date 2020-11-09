@@ -4,8 +4,6 @@ import TimeboxesManager from "./TimeboxesManager";
 import CurrentTimebox from "./CurrentTimebox";
 import ErrorBoundary from "./ErrorBoundary";
 import InspirationalQuotesManager from "./InspirationalQuotesManager";
-import AuthenticationContext from '../contexts/AuthenticationContext';
-import UserGreeting from "./UserGreeting";
 
 function AuthenticatedApp() {
     return (
@@ -13,17 +11,17 @@ function AuthenticatedApp() {
         <Header>
             <UserGreeting />
                 <AuthenticationContext.Consumer>
-                {
-                    ({onLogout}) => (
-                        <a 
-                        onClick = {onLogout} 
-                        className = "header__logout-link" 
-                        href ="#"
-                        >
-                            Log out
-                        </a>
-                    )
-                }
+                    {
+                        ({onLogout}) => (
+                            <a 
+                            onClick = {onLogout} 
+                            className = "header__logout-link" 
+                            href ="#"
+                            >
+                                Log out
+                            </a>
+                        )
+                    }
                 </AuthenticationContext.Consumer>
         </Header>
         <TimeboxesManager />
