@@ -3,17 +3,6 @@ import EditTimebox from "./EditTimebox";
 import PropTypes from "prop-types";
 
 class Timebox extends React.Component {
-    state = {
-        isEditable: false
-    };
-
-    handleEdit = () => {
-        this.setState(
-            (prevState) => ({
-                        isEditable: !prevState.isEditable
-                    })
-        )
-    }
 
     render() {
         const { 
@@ -30,8 +19,7 @@ class Timebox extends React.Component {
             <div className="Timebox">
                 <h3>{title} - {totalTimeInMinutes} min.</h3>
                 <button onClick={onDelete} >Delete</button>
-                <button onClick={this.handleEdit} >Edit</button>
-                {this.state.isEditable ? <EditTimebox hidden={this.handleEdit} onEdit={onEdit}/> : null}
+                <button onClick={onEdit} >Edit</button>
             </div>
         )
     }

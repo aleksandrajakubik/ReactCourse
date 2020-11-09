@@ -1,36 +1,47 @@
-import React from "react";
+import React, { useRef } from "react";
 
-function TimeboxEditor(props) {
-    const { 
-        title, 
-        totalTimeInMinutes,
-        isEditable,
-        onTitleChange,
-        onTotalTimeInMinutesChange,
-        onConfirm 
-    } = props;
+function TimeboxEditor({ onCancel, onUpdate, initialTitle, initialTotalTimeInMinutes }) {
+
+    const formInput = useRef();
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        onUpdate({
+            title: formInput.current[0].value,
+            totalTimeInMinutes: formInput.current[1].value
+        });
+        resetToInitialValues();
+    }
+
+    const handleCancel = () => {
+        resetToInitialValues();
+        onCancel()
+    }
+
+    function resetToInitialValues() {
+        formInput.current[0].value = initialTitle;
+        formInput.current[1].value = initialTotalTimeInMinutes;
+    }
+    
     return (
-        <div className={`TimeboxEditor ${isEditable ? "" : "inactive"}`}>
+        <form onSubmit = {handleSubmit} ref = {formInput} className="TimeboxEditor">
             <label>
                 What are you doing?
                 <input 
-                    disabled={!isEditable} 
-                    value={title}
-                    onChange={onTitleChange}
                     type="text" 
+                    defaultValue={initialTitle}
                 />
             </label><br /> 
             <label>
                 For how many minutes?
                 <input 
-                    disabled={!isEditable}
-                    value={totalTimeInMinutes}
-                    onChange={onTotalTimeInMinutesChange}
                     type="text" 
+                    defaultValue={initialTotalTimeInMinutes}
                 />
             </label><br />
-            <button onClick = {onConfirm} disabled={!isEditable}>Confirm changes</button>
-        </div>
+            <a onClick = {handleCancel}>Cancel</a>
+            <button>Confirm changes</button>
+        </form>
     )
 }
 

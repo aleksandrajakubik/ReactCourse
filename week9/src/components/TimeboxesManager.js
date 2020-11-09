@@ -6,10 +6,12 @@ import TimeboxesAPI from "../api/FetchTimeboxesApi"
 import AuthenticationContext from "../contexts/AuthenticationContext";
 import { TimeboxesList } from "./TimeboxesList";
 import Timebox from "./Timebox";
+import TimeboxEditor from "./TimeboxEditor";
 
 
 function TimeboxesManager() {
     const [timeboxes, setTimeboxes] = useState([]);
+    const [editIndex, setEditIndex] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null)
     const { accessToken } = useContext(AuthenticationContext)
@@ -67,12 +69,26 @@ function TimeboxesManager() {
     }
 
     function renderTimebox(timebox, index){
-        return <Timebox
-            key={timebox.id}
-            title={timebox.title}
-            totalTimeInMinutes={timebox.totalTimeInMinutes}
-            onDelete={() => removeTimebox(index)}
-            onEdit={(newTitle, newTotalTimeInMinutes) => updateTimebox(index, { ...timebox, title: newTitle, totalTimeInMinutes: newTotalTimeInMinutes })} />
+        return <>
+            {editIndex === index ? 
+                <TimeboxEditor 
+                    initialTitle={timebox.title}
+                    initialTotalTimeInMinutes={timebox.totalTimeInMinutes}
+                    onUpdate={(udpatedTimebox) => {
+                        updateTimebox(index, { ...timebox, ...udpatedTimebox })
+                        setEditIndex(null)  
+                    }} 
+                    onCancel={() => setEditIndex(null)}
+                /> : 
+                <Timebox
+                    key={timebox.id}
+                    title={timebox.title}
+                    totalTimeInMinutes={timebox.totalTimeInMinutes}
+                    onDelete={() => removeTimebox(index)}
+                    onEdit={() => setEditIndex(index)} 
+                />
+            }
+        </>
     }
 
 

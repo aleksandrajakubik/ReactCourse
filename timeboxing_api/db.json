@@ -13,8 +13,8 @@
   ],
   "timeboxes": [
     {
-      "title": "I'm learning HOC",
-      "totalTimeInMinutes": "20",
+      "title": "I'm refactoring",
+      "totalTimeInMinutes": "25",
       "id": 5
     },
     {
