@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 
 import TimeboxCreator from "./TimeboxCreator";
 import ErrorBoundary from "./ErrorBoundary";
@@ -7,23 +7,7 @@ import AuthenticationContext from "../contexts/AuthenticationContext";
 import { TimeboxesList } from "./TimeboxesList";
 import Timebox from "./Timebox";
 import TimeboxEditor from "./TimeboxEditor";
-
-function useLegacySetState(initialState){
-    const stateReducer = (prevState, stateChanges) => {
-        let newState = prevState;
-        if (typeof stateChanges === "function") {
-            newState = stateChanges(prevState)
-        } else {
-            newState = {
-                ...prevState,
-                ...stateChanges
-            };
-        };
-        return newState;
-
-    }
-    return useReducer(stateReducer, initialState)
-}
+import { useLegacySetState } from "./hooks";
 
 function TimeboxesManager() {
 

@@ -1,21 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
 import ProgressBar from "./ProgressBar";
 import Clock from "./Clock";
-import { getMinutesAndSecondsFromDurationInSeconds } from "./../lib/time"
+import { getMinutesAndSecondsFromDurationInSeconds } from "./../lib/time";
+import { useLegacySetState } from "./hooks";
 
 function CurrentTimebox({ title, totalTimeInMinutes }) {
-    const [isRunning, setIsRunning] = useState(false);
-    const [isPaused, setIsPaused] = useState(false);
-    const [pausesCount, setPausesCount] = useState(0);
-    const [elapsedTimeInSeconds, setElapsedTimeInSeconds] = useState(0);
 
+    const initialState = {
+        isRunning: false,
+        isPaused: false,
+        pausesCount: 0,
+        elapsedTimeInSeconds: 0
+    };
+
+    const [state, setState] = useLegacySetState(initialState);
     const intervalId = useRef();
 
     const totalTimeInSeconds = totalTimeInMinutes * 60;
-    const timeLeftInSeconds = totalTimeInSeconds - elapsedTimeInSeconds;
+    const timeLeftInSeconds = totalTimeInSeconds - state.elapsedTimeInSeconds;
     const  [ minutesLeft, secondsLeft ] = getMinutesAndSecondsFromDurationInSeconds(timeLeftInSeconds);
 
-    const progressInPercent = (elapsedTimeInSeconds / totalTimeInSeconds) * 100.0;
+    const progressInPercent = (state.elapsedTimeInSeconds / totalTimeInSeconds) * 100.0;
 
     useEffect(() => {
         return () => {
@@ -25,15 +30,17 @@ function CurrentTimebox({ title, totalTimeInMinutes }) {
 
 
     function handleStart(event) {
-        setIsRunning(true)
+        setState({ isRunning: true})
         startTimer();
     }
 
     function handleStop(event) {
-        setIsRunning(false);
-        setIsPaused(false);
-        setPausesCount(0);
-        setElapsedTimeInSeconds(0)
+        setState({
+            isRunning: false,
+            isPaused: false,
+            pausesCount: 0,
+            elapsedTimeInSeconds: 0
+        });
         stopTimer();
     }
 
@@ -41,9 +48,11 @@ function CurrentTimebox({ title, totalTimeInMinutes }) {
         if (!intervalId.current) {
             intervalId.current = window.setInterval(
                 () => {
-                    setElapsedTimeInSeconds(
-                        prevState => prevState + 0.1
-                    )
+                    setState(prevState => 
+                        { 
+                            const elapsedTimeInSeconds =  prevState.elapsedTimeInSeconds + 0.1;
+                            return { ...prevState, elapsedTimeInSeconds }
+                        })
                 }, 
                 100
             )
@@ -56,31 +65,32 @@ function CurrentTimebox({ title, totalTimeInMinutes }) {
     }
 
     function togglePause() {
-        let newIsPaused;
-        setIsPaused(
+        let isPaused;
+        setState(
             (prevState) => {
-                newIsPaused = !prevState;
-                if (newIsPaused) {
+                isPaused = !prevState.isPaused;
+                if (isPaused) {
                     stopTimer();
                 } else {
                     startTimer();
                 }
-                return newIsPaused
+                return { ...prevState, isPaused }
         })
-        setPausesCount(prevState => 
-            newIsPaused ? prevState+ 1 : prevState
-        )
+        setState(prevState => {
+            const pausesCount = isPaused ? prevState.pausesCount + 1 : prevState.pausesCount;
+            return {...prevState, pausesCount}
+        })
     }
 
     return (
         <div className="CurrentTimebox">
             <h1>{title}</h1>
-            <Clock minutes = {minutesLeft} seconds = {secondsLeft} className = {isPaused ? "inactive" : ""}/>
-            <ProgressBar percent = {progressInPercent} className = {isPaused ? "inactive" : ""}/>
-            <button onClick = {handleStart} disabled = {isRunning}>Start</button>
-            <button onClick = {handleStop} disabled = {!isRunning}>Stop</button>
-            <button onClick = {togglePause} disabled = {!isRunning}>{isPaused ? "Restart" : "Pause"}</button>
-            Number of breaks: {pausesCount}
+            <Clock minutes = {minutesLeft} seconds = {secondsLeft} className = {state.isPaused ? "inactive" : ""}/>
+            <ProgressBar percent = {progressInPercent} className = {state.isPaused ? "inactive" : ""}/>
+            <button onClick = {handleStart} disabled = {state.isRunning}>Start</button>
+            <button onClick = {handleStop} disabled = {!state.isRunning}>Stop</button>
+            <button onClick = {togglePause} disabled = {!state.isRunning}>{state.isPaused ? "Restart" : "Pause"}</button>
+            Number of breaks: {state.pausesCount}
         </div>
     )
 };
