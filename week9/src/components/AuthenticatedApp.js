@@ -4,6 +4,8 @@ import TimeboxesManager from "./TimeboxesManager";
 import CurrentTimebox from "./CurrentTimebox";
 import ErrorBoundary from "./ErrorBoundary";
 import InspirationalQuotesManager from "./InspirationalQuotesManager";
+import UserGreeting from "./UserGreeting";
+import AuthenticationContext from "../contexts/AuthenticationContext"
 
 function AuthenticatedApp() {
     return (
