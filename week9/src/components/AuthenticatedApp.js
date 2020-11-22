@@ -29,7 +29,7 @@ function AuthenticatedApp() {
         <TimeboxesManager />
         <ErrorBoundary message = "Something is not working in EditableTimebox..">
             <CurrentTimebox 
-                    title="I'm learning code splitting!" 
+                    title="I'm learning Redux!" 
                     totalTimeInMinutes={10}
                 />
         </ErrorBoundary>
