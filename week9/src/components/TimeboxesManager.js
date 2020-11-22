@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useReducer, useEffect, useContext } from "react";
 
 import TimeboxCreator from "./TimeboxCreator";
 import ErrorBoundary from "./ErrorBoundary";
@@ -8,40 +8,62 @@ import { TimeboxesList } from "./TimeboxesList";
 import Timebox from "./Timebox";
 import TimeboxEditor from "./TimeboxEditor";
 
+function useLegacySetState(initialState){
+    const stateReducer = (prevState, stateChanges) => {
+        let newState = prevState;
+        if (typeof stateChanges === "function") {
+            newState = stateChanges(prevState)
+        } else {
+            newState = {
+                ...prevState,
+                ...stateChanges
+            };
+        };
+        return newState;
+
+    }
+    return useReducer(stateReducer, initialState)
+}
 
 function TimeboxesManager() {
-    const [timeboxes, setTimeboxes] = useState([]);
-    const [editIndex, setEditIndex] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null)
-    const { accessToken } = useContext(AuthenticationContext)
+
+    const initialState = {
+        "timeboxes": [],
+        editIndex: null,
+        loading: true,
+        error: null
+    }
+
+    const [state, setState] = useLegacySetState(initialState);
+
+    const { accessToken } = useContext(AuthenticationContext);
 
     useEffect(() => {
         TimeboxesAPI.getAllTimeboxes(accessToken).then(
-            (timeboxes) => setTimeboxes(timeboxes)
+            (timeboxes) => setState({ timeboxes })
         ).catch(
-            (error) => setError(error)
+            (error) => setState({ error })
         ).finally(
-            () => setLoading(false)
+            () => setState({ loading: false})
         )
     }, [])
 
     function addTimebox(timebox) {
         TimeboxesAPI.addTimebox(timebox, accessToken).then(
-            (addedTimebox) => setTimeboxes(prevTimeboxes => {
-                const timeboxes = [...prevTimeboxes, addedTimebox];
-                return timeboxes;
+            (addedTimebox) => setState(prevState => {
+                const timeboxes = [...prevState.timeboxes, addedTimebox];
+                return { timeboxes };
                 
             })
         )
     }
 
     function removeTimebox(indexToRemove) {
-        TimeboxesAPI.removeTimebox(timeboxes[indexToRemove], accessToken)
+        TimeboxesAPI.removeTimebox(state.timeboxes[indexToRemove], accessToken)
             .then(
-                () => setTimeboxes(prevTimeboxes => {
-                    const timeboxes = prevTimeboxes.filter((timebox, index) => index !== indexToRemove);
-                    return timeboxes;
+                () => setState(prevState => {
+                    const timeboxes = prevState.timeboxes.filter((timebox, index) => index !== indexToRemove);
+                    return { timeboxes };
                 })
             )
     
@@ -50,11 +72,11 @@ function TimeboxesManager() {
     function updateTimebox(indexToUpdate, timeboxToUpdate){
         TimeboxesAPI.replaceTimebox(timeboxToUpdate, accessToken)
         .then(
-            (updatedTimebox) => setTimeboxes(prevTimeboxes => {
-                const timeboxes = prevTimeboxes.map((timebox, index) => 
+            (updatedTimebox) => setState(prevState => {
+                const timeboxes = prevState.timeboxes.map((timebox, index) => 
                     index === indexToUpdate ? updatedTimebox : timebox
                 );
-                return timeboxes;
+                return { timeboxes };
             })
         )
         
@@ -70,22 +92,22 @@ function TimeboxesManager() {
 
     function renderTimebox(timebox, index){
         return <>
-            {editIndex === index ? 
+            {state.editIndex === index ? 
                 <TimeboxEditor 
                     initialTitle={timebox.title}
                     initialTotalTimeInMinutes={timebox.totalTimeInMinutes}
                     onUpdate={(udpatedTimebox) => {
                         updateTimebox(index, { ...timebox, ...udpatedTimebox })
-                        setEditIndex(null)  
+                        setState({ editIndex: null})  
                     }} 
-                    onCancel={() => setEditIndex(null)}
+                    onCancel={() => setState({ editIndex: null})}
                 /> : 
                 <Timebox
                     key={timebox.id}
                     title={timebox.title}
                     totalTimeInMinutes={timebox.totalTimeInMinutes}
                     onDelete={() => removeTimebox(index)}
-                    onEdit={() => setEditIndex(index)} 
+                    onEdit={() => setState({ editIndex: index })} 
                 />
             }
         </>
@@ -95,11 +117,11 @@ function TimeboxesManager() {
     return (
         <>
             <TimeboxCreator onCreate = {handleCreate} />
-            { loading ? "Timeboxes are loading..." : null}
-            { error ? "Something went wrong... ": null}
+            { state.loading ? "Timeboxes are loading..." : null}
+            { state.error ? "Something went wrong... ": null}
             <ErrorBoundary message = "Ups... Something went wrong in list! :(">
             <TimeboxesList 
-                timeboxes={timeboxes}
+                timeboxes={state.timeboxes}
                 renderTimebox={renderTimebox}
             />
             </ErrorBoundary>
