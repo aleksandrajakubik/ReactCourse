@@ -1,10 +1,12 @@
+import {combineReducers} from "redux";
+
 const initialState = {
     "timeboxes": [],
     editIndex: null,
     timeboxesAreLoading: true,
     timeboxesLoadingError: null
 };
-export function timeboxesReducer(state = initialState, action = {}) {
+function timeboxesReducer(state = initialState, action = {}) {
     switch (action.type) {
         case "TIMEBOXES_SET": {
             const { timeboxes } = action;
@@ -89,3 +91,5 @@ export const isTimeboxPaused = (state) => state.isPaused;
 export const isTimeboxRunning = (state) => state.isRunning;
 export const getPausesCount = (state) => state.pausesCount;
 export const getElapsedTimeInSeconds = (state) => state.elapsedTimeInSeconds;
+
+export const rootReducer = combineReducers({ timeboxesReducer, currentTimeboxReducer });

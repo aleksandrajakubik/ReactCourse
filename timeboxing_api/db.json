@@ -13,7 +13,7 @@
   ],
   "timeboxes": [
     {
-      "title": "Learning Redux",
+      "title": "Learning Redux!",
       "totalTimeInMinutes": "30",
       "id": 7
     },
@@ -21,6 +21,11 @@
       "title": "Learning useReducer",
       "totalTimeInMinutes": "15",
       "id": 8
+    },
+    {
+      "title": "Learning combinReducers",
+      "totalTimeInMinutes": "15",
+      "id": 9
     }
   ],
   "people": [
