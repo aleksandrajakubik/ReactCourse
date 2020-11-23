@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 
 import TimeboxCreator from "./TimeboxCreator";
 import ErrorBoundary from "./ErrorBoundary";
@@ -9,18 +9,11 @@ import Timebox from "./Timebox";
 import TimeboxEditor from "./TimeboxEditor";
 import { rootReducer, getAllTimeboxes, areTimeboxesLoading, getTimeboxesLoadingError, isTimeboxEdited } from "../reducers";
 import { setTimeboxes, setError, disableLoadingIndicator, addTimebox, replaceTimebox, stopEditingTimebox, removeTimebox, startEditingTimebox } from "../actions";
-
+import { useForceUpdate } from "../lib/forceUpdate";
 import { createStore } from "redux";
 
 const store = createStore(rootReducer);
 
-function useForceUpdate() {
-    const [updateCounter, setUpdateCounter] = useState(0);
-    function forceUpdate(){
-        setUpdateCounter(prevCounter => prevCounter + 1)
-    }
-    return forceUpdate;
-}
 function TimeboxesManager() {
     const forceUpdate = useForceUpdate();
     const state = store.getState().timeboxesReducer;

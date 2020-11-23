@@ -1,15 +1,21 @@
-import React, { useReducer, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import ProgressBar from "./ProgressBar";
 import Clock from "./Clock";
 import { getMinutesAndSecondsFromDurationInSeconds } from "./../lib/time";
-import { currentTimeboxReducer, isTimeboxPaused, isTimeboxRunning, getPausesCount, getElapsedTimeInSeconds } from "../reducers";
+import { rootReducer, isTimeboxPaused, isTimeboxRunning, getPausesCount, getElapsedTimeInSeconds } from "../reducers";
 import { startTimebox, stopTimebox, setElapsedTimeInSeconds, togglingPause} from "../actions";
 
+import { createStore } from "redux";
+import { useForceUpdate } from "../lib/forceUpdate";
+
+const store = createStore(rootReducer);
 
 function CurrentTimebox({ title, totalTimeInMinutes }) {
 
-
-    const [state, dispatch] = useReducer(currentTimeboxReducer, undefined, currentTimeboxReducer);
+    const forceUpdate = useForceUpdate();
+    const state = store.getState().currentTimeboxReducer;
+    const dispatch = store.dispatch;
+    useEffect(() => store.subscribe(forceUpdate), []);
 
     const intervalId = useRef();
 

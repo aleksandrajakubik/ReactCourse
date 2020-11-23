@@ -59,7 +59,7 @@ const initialCurrentTimeboxState = {
 };
 
 
-export function currentTimeboxReducer(state = initialCurrentTimeboxState, action = {}) {
+function currentTimeboxReducer(state = initialCurrentTimeboxState, action = {}) {
     switch(action.type){
         case 'START': {
             return { ...state, isRunning: true }
