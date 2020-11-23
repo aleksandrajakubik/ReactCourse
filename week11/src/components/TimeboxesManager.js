@@ -8,7 +8,7 @@ import { TimeboxesList } from "./TimeboxesList";
 import Timebox from "./Timebox";
 import TimeboxEditor from "./TimeboxEditor";
 import { timeboxesReducer } from "../reducers";
-
+import { setTimeboxes, setError, disableLoadingIndicator, addTimebox, replaceTimebox, stopEditingTimebox, removeTimebox, startEditingTimebox } from "../actions";
 
 function TimeboxesManager() {
 
@@ -19,39 +19,19 @@ function TimeboxesManager() {
 
     useEffect(() => {
         TimeboxesAPI.getAllTimeboxes(accessToken).then(
-            (timeboxes) => dispatch({type: "TIMEBOXES_SET", timeboxes })
+            (timeboxes) => dispatch(setTimeboxes(timeboxes))
         ).catch(
-            (error) => dispatch({type: "ERROR_SET", error })
+            (error) => dispatch(setError(error))
         ).finally(
-            () => dispatch({ type: "LOADING_INDICATOR_DISABLE"})
+            () => dispatch(disableLoadingIndicator())
         )
     }, [])
 
-    function addTimebox(timebox) {
-        TimeboxesAPI.addTimebox(timebox, accessToken).then(
-            (addedTimebox) => dispatch({type: "TIMEBOX_ADD", timebox: addedTimebox })
-        )
-    }
-
-    function removeTimebox(timeboxToRemove) {
-        TimeboxesAPI.removeTimebox(timeboxToRemove, accessToken)
-            .then(
-                () => dispatch({type: "TIMEBOX_REMOVE", removedTimebox: timeboxToRemove })
-            )
-    
-    }
-
-    function updateTimebox(timeboxToUpdate){
-        TimeboxesAPI.replaceTimebox(timeboxToUpdate, accessToken)
-        .then(
-            (replacedTimebox) => dispatch({type: "TIMEBOX_REPLACE", replacedTimebox})
-        )
-        
-    } 
-
     function handleCreate(createdTimebox){
         try {
-            addTimebox(createdTimebox);
+            TimeboxesAPI.addTimebox(createdTimebox, accessToken).then(
+                (addedTimebox) => dispatch(addTimebox(addedTimebox))
+            )
         } catch (error) {
             console.log("There is error while creating timebox: ", error);
         }
@@ -64,17 +44,26 @@ function TimeboxesManager() {
                     initialTitle={timebox.title}
                     initialTotalTimeInMinutes={timebox.totalTimeInMinutes}
                     onUpdate={(udpatedTimebox) => {
-                        updateTimebox({ ...timebox, ...udpatedTimebox })
-                        dispatch({ type: "TIMEBOX_EDIT_STOP"})  
+                        const timeboxToUpdate = { ...timebox, ...udpatedTimebox }
+                        TimeboxesAPI.replaceTimebox(timeboxToUpdate, accessToken)
+                            .then(
+                                (replacedTimebox) => dispatch(replaceTimebox(replacedTimebox))
+                            )
+                        dispatch(stopEditingTimebox())  
                     }} 
-                    onCancel={() => dispatch({ type: "TIMEBOX_EDIT_STOP"})}
+                    onCancel={() => dispatch(stopEditingTimebox())}
                 /> : 
                 <Timebox
                     key={timebox.id}
                     title={timebox.title}
                     totalTimeInMinutes={timebox.totalTimeInMinutes}
-                    onDelete={() => removeTimebox(timebox)}
-                    onEdit={() => dispatch({ type: "TIMEBOX_EDIT_START", currentlyEditedTimeboxId: timebox.id}) } 
+                    onDelete={() => 
+                        TimeboxesAPI.removeTimebox(timebox, accessToken)
+                            .then(
+                                () => dispatch(removeTimebox(timebox))
+                            )
+                    }
+                    onEdit={() => dispatch(startEditingTimebox(timebox.id)) } 
                 />
             }
         </>
