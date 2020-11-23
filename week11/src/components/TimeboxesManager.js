@@ -7,7 +7,7 @@ import AuthenticationContext from "../contexts/AuthenticationContext";
 import { TimeboxesList } from "./TimeboxesList";
 import Timebox from "./Timebox";
 import TimeboxEditor from "./TimeboxEditor";
-import { timeboxesReducer } from "../reducers";
+import { timeboxesReducer, getAllTimeboxes, areTimeboxesLoading, getTimeboxesLoadingError, isTimeboxEdited } from "../reducers";
 import { setTimeboxes, setError, disableLoadingIndicator, addTimebox, replaceTimebox, stopEditingTimebox, removeTimebox, startEditingTimebox } from "../actions";
 
 function TimeboxesManager() {
@@ -39,7 +39,7 @@ function TimeboxesManager() {
 
     function renderTimebox(timebox){
         return <>
-            {state.currentlyEditedTimeboxId === timebox.id ? 
+            {isTimeboxEdited(state, timebox) ? 
                 <TimeboxEditor 
                     initialTitle={timebox.title}
                     initialTotalTimeInMinutes={timebox.totalTimeInMinutes}
@@ -73,11 +73,11 @@ function TimeboxesManager() {
     return (
         <>
             <TimeboxCreator onCreate = {handleCreate} />
-            { state.loading ? "Timeboxes are loading..." : null}
-            { state.error ? "Something went wrong... ": null}
+            { areTimeboxesLoading(state) ? "Timeboxes are loading..." : null}
+            { getTimeboxesLoadingError(state) ? "Something went wrong... ": null}
             <ErrorBoundary message = "Ups... Something went wrong in list! :(">
             <TimeboxesList 
-                timeboxes={state.timeboxes}
+                timeboxes={getAllTimeboxes(state)}
                 renderTimebox={renderTimebox}
             />
             </ErrorBoundary>

@@ -2,7 +2,7 @@ import React, { useReducer, useEffect, useRef } from "react";
 import ProgressBar from "./ProgressBar";
 import Clock from "./Clock";
 import { getMinutesAndSecondsFromDurationInSeconds } from "./../lib/time";
-import { currentTimeboxReducer } from "../reducers";
+import { currentTimeboxReducer, isTimeboxPaused, isTimeboxRunning, getPausesCount, getElapsedTimeInSeconds } from "../reducers";
 import { startTimebox, stopTimebox, setElapsedTimeInSeconds, togglingPause} from "../actions";
 
 
@@ -14,10 +14,11 @@ function CurrentTimebox({ title, totalTimeInMinutes }) {
     const intervalId = useRef();
 
     const totalTimeInSeconds = totalTimeInMinutes * 60;
-    const timeLeftInSeconds = totalTimeInSeconds - state.elapsedTimeInSeconds;
+    const timeLeftInSeconds = totalTimeInSeconds - getElapsedTimeInSeconds(state);
     const  [ minutesLeft, secondsLeft ] = getMinutesAndSecondsFromDurationInSeconds(timeLeftInSeconds);
 
-    const progressInPercent = (state.elapsedTimeInSeconds / totalTimeInSeconds) * 100.0;
+    const progressInPercent = (getElapsedTimeInSeconds(state) / totalTimeInSeconds) * 100.0;
+
 
     useEffect(() => {
         return () => {
@@ -52,7 +53,7 @@ function CurrentTimebox({ title, totalTimeInMinutes }) {
 
     function togglePause() {
         dispatch(togglingPause())
-        if (state.isPaused) {
+        if (isTimeboxPaused(state)) {
             startTimer();
         } else {
             stopTimer();
@@ -62,12 +63,12 @@ function CurrentTimebox({ title, totalTimeInMinutes }) {
     return (
         <div className="CurrentTimebox">
             <h1>{title}</h1>
-            <Clock minutes = {minutesLeft} seconds = {secondsLeft} className = {state.isPaused ? "inactive" : ""}/>
-            <ProgressBar percent = {progressInPercent} className = {state.isPaused ? "inactive" : ""}/>
-            <button onClick = {handleStart} disabled = {state.isRunning}>Start</button>
-            <button onClick = {handleStop} disabled = {!state.isRunning}>Stop</button>
-            <button onClick = {togglePause} disabled = {!state.isRunning}>{state.isPaused ? "Restart" : "Pause"}</button>
-            Number of breaks: {state.pausesCount}
+            <Clock minutes = {minutesLeft} seconds = {secondsLeft} className = {isTimeboxPaused(state) ? "inactive" : ""}/>
+            <ProgressBar percent = {progressInPercent} className = {isTimeboxPaused(state) ? "inactive" : ""}/>
+            <button onClick = {handleStart} disabled = {isTimeboxRunning(state)}>Start</button>
+            <button onClick = {handleStop} disabled = {!isTimeboxRunning(state)}>Stop</button>
+            <button onClick = {togglePause} disabled = {!isTimeboxRunning(state)}>{isTimeboxPaused(state) ? "Restart" : "Pause"}</button>
+            Number of breaks: {getPausesCount(state)}
         </div>
     )
 };
