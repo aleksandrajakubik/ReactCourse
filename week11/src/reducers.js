@@ -43,3 +43,40 @@ export function timeboxesReducer(state = initialState, action = {}) {
             return state;
     }
 }
+
+const initialCurrentTimeboxState = {
+    isRunning: false,
+    isPaused: false,
+    pausesCount: 0,
+    elapsedTimeInSeconds: 0
+};
+
+
+export function currentTimeboxReducer(state = initialCurrentTimeboxState, action = {}) {
+    switch(action.type){
+        case 'START': {
+            return { ...state, isRunning: true }
+        }
+        case 'STOP': {
+            return {
+                ...state,
+                isRunning: false,
+                isPaused: false,
+                pausesCount: 0,
+                elapsedTimeInSeconds: 0
+            }
+        }
+        case 'SET_ELAPSED_TIME_IN_SECONDS': {
+            const elapsedTimeInSeconds =  state.elapsedTimeInSeconds + 0.1;
+            return { ...state, elapsedTimeInSeconds }
+        }
+        case 'TOGGLE_PAUSE': {
+            const isPaused = !state.isPaused;
+            const pausesCount = isPaused ? state.pausesCount + 1 : state.pausesCount;
+            return { ...state, isPaused, pausesCount }
+        }
+        default:
+            return state
+    }
+}
+

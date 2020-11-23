@@ -2,45 +2,12 @@ import React, { useReducer, useEffect, useRef } from "react";
 import ProgressBar from "./ProgressBar";
 import Clock from "./Clock";
 import { getMinutesAndSecondsFromDurationInSeconds } from "./../lib/time";
-
-const initialState = {
-    isRunning: false,
-    isPaused: false,
-    pausesCount: 0,
-    elapsedTimeInSeconds: 0
-};
-
-
-function currentTimeboxReducer(state = initialState, action = {}) {
-    switch(action.type){
-        case 'START': {
-            return { ...state, isRunning: true }
-        }
-        case 'STOP': {
-            return {
-                ...state,
-                isRunning: false,
-                isPaused: false,
-                pausesCount: 0,
-                elapsedTimeInSeconds: 0
-            }
-        }
-        case 'SET_ELAPSED_TIME_IN_SECONDS': {
-            const elapsedTimeInSeconds =  state.elapsedTimeInSeconds + 0.1;
-            return { ...state, elapsedTimeInSeconds }
-        }
-        case 'TOGGLE_PAUSE': {
-            const isPaused = !state.isPaused;
-            const pausesCount = isPaused ? state.pausesCount + 1 : state.pausesCount;
-            return { ...state, isPaused, pausesCount }
-        }
-    }
-}
+import { currentTimeboxReducer } from "../reducers";
 
 function CurrentTimebox({ title, totalTimeInMinutes }) {
 
 
-    const [state, dispatch] = useReducer(currentTimeboxReducer, initialState);
+    const [state, dispatch] = useReducer(currentTimeboxReducer, undefined, currentTimeboxReducer);
 
     const intervalId = useRef();
 
