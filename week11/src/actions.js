@@ -6,3 +6,8 @@ export const removeTimebox = (timebox) => ({ type: "TIMEBOX_REMOVE", removedTime
 export const replaceTimebox = (replacedTimebox) => ({ type: "TIMEBOX_REPLACE", replacedTimebox });
 export const stopEditingTimebox = () => ({ type: "TIMEBOX_EDIT_STOP" });
 export const startEditingTimebox = (id) => ({ type: "TIMEBOX_EDIT_START", currentlyEditedTimeboxId: id });
+
+export const startTimebox = () => ({ type: 'START'});
+export const stopTimebox = () => ({ type: 'STOP'});
+export const setElapsedTimeInSeconds = () => ({ type: 'SET_ELAPSED_TIME_IN_SECONDS' });
+export const togglingPause = () => ({ type: 'TOGGLE_PAUSE'});

@@ -3,6 +3,8 @@ import ProgressBar from "./ProgressBar";
 import Clock from "./Clock";
 import { getMinutesAndSecondsFromDurationInSeconds } from "./../lib/time";
 import { currentTimeboxReducer } from "../reducers";
+import { startTimebox, stopTimebox, setElapsedTimeInSeconds, togglingPause} from "../actions";
+
 
 function CurrentTimebox({ title, totalTimeInMinutes }) {
 
@@ -25,19 +27,19 @@ function CurrentTimebox({ title, totalTimeInMinutes }) {
 
 
     function handleStart(event) {
-        dispatch({ type: 'START'})
+        dispatch(startTimebox())
         startTimer();
     }
 
     function handleStop(event) {
-        dispatch({ type: 'STOP'})
+        dispatch(stopTimebox())
         stopTimer();
     }
 
     function startTimer() {
         if (!intervalId.current) {
             intervalId.current = window.setInterval(
-                () => {dispatch({ type: 'SET_ELAPSED_TIME_IN_SECONDS' })}, 
+                () => {dispatch(setElapsedTimeInSeconds())}, 
                 100
             )
         }
@@ -49,7 +51,7 @@ function CurrentTimebox({ title, totalTimeInMinutes }) {
     }
 
     function togglePause() {
-        dispatch({ type: 'TOGGLE_PAUSE'})
+        dispatch(togglingPause())
         if (state.isPaused) {
             startTimer();
         } else {
