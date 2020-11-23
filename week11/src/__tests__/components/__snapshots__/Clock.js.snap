@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Clock /> when given minutes and seconds (TestRenderer) renders properly 1`] = `
+<h2
+  className="Clock "
+>
+  Time left:
+  <span
+    className="Clock__hours"
+  >
+    00
+  </span>
+  <span
+    className="Clock__separator"
+  >
+    :
+  </span>
+  <span
+    className="Clock__minutes"
+  >
+    10
+  </span>
+  <span
+    className="Clock__separator"
+  >
+    :
+  </span>
+  <span
+    className="Clock__seconds"
+  >
+    20
+  </span>
+  .
+  <span
+    className="Clock__miliseconds"
+  >
+    000
+  </span>
+</h2>
+`;

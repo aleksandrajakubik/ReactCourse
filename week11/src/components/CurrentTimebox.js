@@ -40,7 +40,7 @@ function currentTimeboxReducer(state = initialState, action = {}) {
 function CurrentTimebox({ title, totalTimeInMinutes }) {
 
 
-    const [state, dispatch] = useReducer(currentTimeboxReducer, undefined, currentTimeboxReducer);
+    const [state, dispatch] = useReducer(currentTimeboxReducer, initialState);
 
     const intervalId = useRef();
 
