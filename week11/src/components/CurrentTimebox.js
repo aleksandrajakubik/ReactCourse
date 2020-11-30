@@ -1,17 +1,16 @@
 import React, { useEffect, useRef } from "react";
+import { useStore } from "react-redux";
 import ProgressBar from "./ProgressBar";
 import Clock from "./Clock";
 import { getMinutesAndSecondsFromDurationInSeconds } from "./../lib/time";
-import { rootReducer, isTimeboxPaused, isTimeboxRunning, getPausesCount, getElapsedTimeInSeconds } from "../reducers";
+import { isTimeboxPaused, isTimeboxRunning, getPausesCount, getElapsedTimeInSeconds } from "../reducers";
 import { startTimebox, stopTimebox, setElapsedTimeInSeconds, togglingPause} from "../actions";
-
-import { createStore } from "redux";
 import { useForceUpdate } from "../lib/forceUpdate";
 
-const store = createStore(rootReducer);
 
 function CurrentTimebox({ title, totalTimeInMinutes }) {
 
+    const store = useStore();
     const forceUpdate = useForceUpdate();
     const state = store.getState().currentTimeboxReducer;
     const dispatch = store.dispatch;
