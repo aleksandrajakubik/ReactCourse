@@ -4,13 +4,11 @@ import TimeboxCreator from "./TimeboxCreator";
 import ErrorBoundary from "./ErrorBoundary";
 import TimeboxesAPI from "../api/FetchTimeboxesApi"
 import AuthenticationContext from "../contexts/AuthenticationContext";
-import { TimeboxesList } from "./TimeboxesList";
-import Timebox from "./Timebox";
-import TimeboxEditor from "./TimeboxEditor";
-import { getAllTimeboxes, areTimeboxesLoading, getTimeboxesLoadingError, isTimeboxEdited } from "../reducers";
-import { setTimeboxes, setError, disableLoadingIndicator, addTimebox, replaceTimebox, stopEditingTimebox, removeTimebox, startEditingTimebox } from "../actions";
+import { AllTimeboxesList } from "./TimeboxesList";
+import { areTimeboxesLoading, getTimeboxesLoadingError } from "../reducers";
+import { setTimeboxes, setError, disableLoadingIndicator, addTimebox, replaceTimebox, stopEditingTimebox, removeTimebox } from "../actions";
 import { useForceUpdate } from "../lib/forceUpdate";
-
+import { EditableTimebox } from "./EditableTimebox";
 
 function TimeboxesManager() {
     const store = useStore();
@@ -31,7 +29,7 @@ function TimeboxesManager() {
         )
     }, [])
 
-    function handleCreate(createdTimebox){
+    function handleCreate(createdTimebox) {
         try {
             TimeboxesAPI.addTimebox(createdTimebox, accessToken).then(
                 (addedTimebox) => dispatch(addTimebox(addedTimebox))
@@ -41,49 +39,38 @@ function TimeboxesManager() {
         }
     }
 
-    function renderTimebox(timebox){
-        return <>
-            {isTimeboxEdited(state, timebox) ? 
-                <TimeboxEditor 
-                    initialTitle={timebox.title}
-                    initialTotalTimeInMinutes={timebox.totalTimeInMinutes}
-                    onUpdate={(udpatedTimebox) => {
-                        const timeboxToUpdate = { ...timebox, ...udpatedTimebox }
-                        TimeboxesAPI.replaceTimebox(timeboxToUpdate, accessToken)
-                            .then(
-                                (replacedTimebox) => dispatch(replaceTimebox(replacedTimebox))
-                            )
-                        dispatch(stopEditingTimebox())  
-                    }} 
-                    onCancel={() => dispatch(stopEditingTimebox())}
-                /> : 
-                <Timebox
-                    key={timebox.id}
-                    title={timebox.title}
-                    totalTimeInMinutes={timebox.totalTimeInMinutes}
-                    onDelete={() => 
-                        TimeboxesAPI.removeTimebox(timebox, accessToken)
-                            .then(
-                                () => dispatch(removeTimebox(timebox))
-                            )
-                    }
-                    onEdit={() => dispatch(startEditingTimebox(timebox.id)) } 
-                />
-            }
-        </>
+    function renderTimebox(timebox) {
+        const onUpdate = (udpatedTimebox) => {
+            const timeboxToUpdate = { ...timebox, ...udpatedTimebox }
+            TimeboxesAPI.replaceTimebox(timeboxToUpdate, accessToken)
+                .then(
+                    (replacedTimebox) => dispatch(replaceTimebox(replacedTimebox))
+                )
+            dispatch(stopEditingTimebox())
+        }
+        const onDelete = () =>
+            TimeboxesAPI.removeTimebox(timebox, accessToken)
+                .then(
+                    () => dispatch(removeTimebox(timebox))
+                )
+        return <EditableTimebox
+            timebox={timebox}
+            onUpdate={onUpdate}
+            onDelete={onDelete}
+        />
+
     }
 
 
     return (
         <>
-            <TimeboxCreator onCreate = {handleCreate} />
+            <TimeboxCreator onCreate={handleCreate} />
             { areTimeboxesLoading(state) ? "Timeboxes are loading..." : null}
-            { getTimeboxesLoadingError(state) ? "Something went wrong... ": null}
-            <ErrorBoundary message = "Ups... Something went wrong in list! :(">
-            <TimeboxesList 
-                timeboxes={getAllTimeboxes(state)}
-                renderTimebox={renderTimebox}
-            />
+            { getTimeboxesLoadingError(state) ? "Something went wrong... " : null}
+            <ErrorBoundary message="Ups... Something went wrong in list! :(">
+                <AllTimeboxesList
+                    renderTimebox={renderTimebox}
+                />
             </ErrorBoundary>
         </>
     )

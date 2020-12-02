@@ -13,11 +13,6 @@
   ],
   "timeboxes": [
     {
-      "title": "Learning Redux!",
-      "totalTimeInMinutes": "30",
-      "id": 7
-    },
-    {
       "title": "Learning useReducer",
       "totalTimeInMinutes": "15",
       "id": 8
