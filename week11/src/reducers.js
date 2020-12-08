@@ -6,7 +6,7 @@ const initialState = {
     timeboxesAreLoading: true,
     timeboxesLoadingError: null
 };
-function timeboxesReducer(state = initialState, action = {}) {
+export function timeboxesReducer(state = initialState, action = {}) {
     switch (action.type) {
         case "TIMEBOXES_SET": {
             const { timeboxes } = action;
@@ -50,6 +50,7 @@ export const getAllTimeboxes = (state) => state.timeboxes;
 export const areTimeboxesLoading = (state) => state.timeboxesAreLoading;
 export const getTimeboxesLoadingError = (state) => state.timeboxesLoadingError;
 export const isTimeboxEdited = (state, timebox) => state.currentlyEditedTimeboxId && state.currentlyEditedTimeboxId === timebox.id;
+export const getTimeboxById = (state, timeboxId) => state.timeboxes.find(timebox => timebox.id === timeboxId);
 
 const initialCurrentTimeboxState = {
     isRunning: false,
