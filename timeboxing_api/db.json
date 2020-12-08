@@ -13,12 +13,12 @@
   ],
   "timeboxes": [
     {
-      "title": "Learning useReducer",
+      "title": "Learning useReducer!",
       "totalTimeInMinutes": "15",
       "id": 8
     },
     {
-      "title": "Learning combineReducers!",
+      "title": "Learning combineReducers",
       "totalTimeInMinutes": "20",
       "id": 9
     }

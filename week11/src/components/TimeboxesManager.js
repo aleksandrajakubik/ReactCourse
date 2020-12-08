@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { useStore } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TimeboxCreator from "./TimeboxCreator";
 import ErrorBoundary from "./ErrorBoundary";
 import TimeboxesAPI from "../api/FetchTimeboxesApi"
@@ -7,15 +7,13 @@ import AuthenticationContext from "../contexts/AuthenticationContext";
 import { AllTimeboxesList } from "./TimeboxesList";
 import { areTimeboxesLoading, getTimeboxesLoadingError } from "../reducers";
 import { setTimeboxes, setError, disableLoadingIndicator, addTimebox, replaceTimebox, stopEditingTimebox, removeTimebox } from "../actions";
-import { useForceUpdate } from "../lib/forceUpdate";
 import { EditableTimebox } from "./EditableTimebox";
 
 function TimeboxesManager() {
-    const store = useStore();
-    const forceUpdate = useForceUpdate();
-    const state = store.getState().timeboxesReducer;
-    const dispatch = store.dispatch;
-    useEffect(() => store.subscribe(forceUpdate), []);
+
+    const dispatch = useDispatch();
+    const timeboxesLoading = useSelector(areTimeboxesLoading);
+    const timeboxesLoadingError = useSelector(getTimeboxesLoadingError);
 
     const { accessToken } = useContext(AuthenticationContext);
 
@@ -61,12 +59,11 @@ function TimeboxesManager() {
 
     }
 
-
     return (
         <>
             <TimeboxCreator onCreate={handleCreate} />
-            { areTimeboxesLoading(state) ? "Timeboxes are loading..." : null}
-            { getTimeboxesLoadingError(state) ? "Something went wrong... " : null}
+            { timeboxesLoading ? "Timeboxes are loading..." : null}
+            { timeboxesLoadingError ? "Something went wrong... " : null}
             <ErrorBoundary message="Ups... Something went wrong in list! :(">
                 <AllTimeboxesList
                     renderTimebox={renderTimebox}
