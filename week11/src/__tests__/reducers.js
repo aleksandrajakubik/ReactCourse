@@ -1,4 +1,3 @@
-import { replaceTimebox } from "../actions";
 import { areTimeboxesLoading, timeboxesReducer, getTimeboxById } from "../reducers"
 
 test('areTimeboxesLoading return true when state.timeboxesAreLoading is set to true ', () => {
