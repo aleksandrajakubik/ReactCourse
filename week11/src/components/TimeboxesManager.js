@@ -6,7 +6,7 @@ import TimeboxesAPI from "../api/FetchTimeboxesApi"
 import AuthenticationContext from "../contexts/AuthenticationContext";
 import { AllTimeboxesList } from "./TimeboxesList";
 import { areTimeboxesLoading, getTimeboxesLoadingError } from "../reducers";
-import { setTimeboxes, setError, disableLoadingIndicator, addTimebox, replaceTimebox, stopEditingTimebox, removeTimebox } from "../actions";
+import { fetchAllTimeboxes ,addTimebox, replaceTimebox, stopEditingTimebox, removeTimeboxRemotely } from "../actions";
 import { EditableTimebox } from "./EditableTimebox";
 
 function TimeboxesManager() {
@@ -18,13 +18,7 @@ function TimeboxesManager() {
     const { accessToken } = useContext(AuthenticationContext);
 
     useEffect(() => {
-        TimeboxesAPI.getAllTimeboxes(accessToken).then(
-            (timeboxes) => dispatch(setTimeboxes(timeboxes))
-        ).catch(
-            (error) => dispatch(setError(error))
-        ).finally(
-            () => dispatch(disableLoadingIndicator())
-        )
+        dispatch(fetchAllTimeboxes(accessToken))
     }, [])
 
     function handleCreate(createdTimebox) {
@@ -46,11 +40,7 @@ function TimeboxesManager() {
                 )
             dispatch(stopEditingTimebox())
         }
-        const onDelete = () =>
-            TimeboxesAPI.removeTimebox(timebox, accessToken)
-                .then(
-                    () => dispatch(removeTimebox(timebox))
-                )
+        const onDelete = () => dispatch(removeTimeboxRemotely(timebox, accessToken));
         return <EditableTimebox
             timebox={timebox}
             onUpdate={onUpdate}
